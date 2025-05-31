@@ -1,0 +1,942 @@
+@extends('front.master')
+
+@section('title')
+    {{$generalSettingView->site_name}} - {{$product->name}}
+@endsection
+
+@section('meta_data')
+    @php
+        // Get the category name from the product (Example: 't-shirt male')
+        $categoryName = $product->name;
+
+        // Replace hyphens and spaces with underscores
+        $convertedName = str_replace(['-', ' '], '_', $categoryName);
+        $discountPrice = $product->sell_price;
+        if ($product->discount > 0) {
+            if ($product->discount_type == 2) {
+                $discountPrice = $product->sell_price - ($product->sell_price * ($product->discount / 100));
+            } else {
+                $discountPrice = $product->sell_price - $product->discount;
+            }
+        }
+    @endphp
+    <meta property="og:title" content="{{$product->name}}">
+    <meta property="og:description" content="{{strip_tags($product->description)}}">
+    <meta property="og:url" content="{{request()->url()}}">
+    <meta property="og:image" content="{{asset($product->thumbnail_img)}}">
+    <meta property="product:brand" content="{{$product->brand->name}}">
+    @if($product->stock != 0)
+        <meta property="product:availability" content="in stock">
+    @else
+        <meta property="product:availability" content="Out of stock">
+    @endif
+    <meta property="product:condition" content="new">
+    <meta property="product:price:amount" content="{{$product->sell_price}}">
+    @if($product->discount > 0)
+    <meta property="product:sale_price:amount" content="{{$discountPrice}}">
+    @endif
+    <meta property="product:price:currency" content="BDT">
+    <meta property="product:retailer_item_id" content="{{$product->id}}">
+
+{{--    <meta property="product:retailer_item_id" content="{{ $convertedName }}_{{$product->id}}">--}}
+    <meta property="product:item_group_id" id="variantName" content="{{ $convertedName }}">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="{{request()->url()}}">
+@endsection
+
+@section('body')
+
+    <style>
+        .size-buttons .btn-size {
+            margin: 3px !important; /* Small margin between buttons */
+            padding: 5px 10px !important; /* Compact padding */
+            font-size: 12px !important; /* Smaller font size */
+            max-width: 60px !important; /* Fixed small width */
+            text-align: center !important; /* Center-align text */
+            border: 1px solid #ddd !important; /* Border for visibility */
+            border-radius: 3px !important; /* Rounded corners */
+            background-color: #f9f9f9 !important; /* Light background */
+            cursor: pointer !important; /* Pointer cursor */
+            transition: all 0.3s ease !important; /* Smooth hover effect */
+        }
+
+        .size-buttons .btn-size.active {
+            border-color: #c96 !important; /* Highlight active button */
+            background-color: #c96 !important; /* Blue background for active */
+            color: #fff !important; /* White text for active */
+        }
+
+        .size-buttons .btn-size:hover {
+            background-color: #c96 !important; /* Blue background on hover */
+            color: #fff !important; /* White text on hover */
+        }
+
+        .size-buttons {
+            display: flex !important; /* Arrange buttons in a row */
+            flex-wrap: wrap !important; /* Allow wrapping if there are many buttons */
+            gap: 5px !important; /* Add spacing between buttons */
+        }
+    </style>
+
+    <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
+        <div class="container d-flex align-items-center">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('category.product', ['id' => $product->category_id])}}">{{$product->category->category_name}}</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
+            </ol>
+        </div><!-- End .container -->
+    </nav><!-- End .breadcrumb-nav -->
+
+    <style>
+        /* Hide desktop content on small screens */
+        .desktop-view {
+            display: none;
+        }
+
+        /* Show desktop content on screens larger than 768px */
+        @media (min-width: 768px) {
+            .desktop-view {
+                display: block;
+            }
+            .mobile-view {
+                display: none;
+            }
+        }
+    </style>
+
+    <div class="page-content">
+        <div class="container">
+            <div class="product-details-top">
+                <div class="row">
+                    <!-- Mobile Version -->
+                    <div class="col-md-6 mobile-view">
+                        <div class="product-gallery">
+                            <figure class="product-main-image">
+                                <img src="{{ asset($product->thumbnail_img) }}" data-zoom-image="{{ asset($product->thumbnail_img) }}" alt="product image">
+
+{{--                                <a href="#" id="btn-product-gallery" class="btn-product-gallery">--}}
+{{--                                    <i class="icon-arrows"></i>--}}
+{{--                                </a>--}}
+                            </figure><!-- End .product-main-image -->
+
+                            <div class="product-image-gallery">
+                                <a class="product-gallery-item zoom-image" href="#"
+                                   data-image="{{ asset($product->thumbnail_img) }}"
+                                   data-zoom-image="{{ asset($product->thumbnail_img) }}">
+                                    <img src="{{ asset($product->thumbnail_img) }}" alt="product side">
+                                </a>
+                                @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+                                    @foreach($product->variants->where('color_id', '!=', null)->unique('color_id') as $variantImage)
+                                        @if ($variantImage->image !== $product->thumbnail_img)
+                                            <a class="product-gallery-item zoom-image" href="#" data-image="{{ asset($variantImage->image) }}" data-zoom-image="{{ asset($variantImage->image) }}">
+                                                <img src="{{ asset($variantImage->image) }}" alt="product side">
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach($product->otherImages as $otherImage)
+                                        @if ($otherImage->gellery_image !== $product->thumbnail_img)
+                                            <a class="product-gallery-item zoom-image" href="#"
+                                               data-image="{{ asset($otherImage->gellery_image) }}"
+                                               data-zoom-image="{{ asset($otherImage->gellery_image) }}">
+                                                <img src="{{ asset($otherImage->gellery_image) }}" alt="product side">
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div><!-- End .product-image-gallery -->
+                        </div><!-- End .product-gallery -->
+
+                        <!-- Add jQuery -->
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+                        <!-- Add Script -->
+                        <script>
+                            $(document).ready(function () {
+                                // Listen for clicks on gallery items
+                                $('.zoom-image').on('click', function (e) {
+                                    e.preventDefault();
+
+                                    // Get the clicked image's data attributes
+                                    let newImage = $(this).data('image');         // Image URL for the main display
+                                    let zoomImage = $(this).data('zoom-image');   // Image URL for zoom effect
+
+                                    // Update the main image and its zoom image
+                                    $('.product-main-image img').attr('src', newImage);
+                                    $('.product-main-image img').attr('data-zoom-image', zoomImage);
+
+                                    // Remove "active" class from all gallery items
+                                    $('.zoom-image').removeClass('active');
+
+                                    // Add "active" class to the clicked item
+                                    $(this).addClass('active');
+                                });
+                            });
+                        </script>
+                    </div><!-- End .col-md-6 -->
+
+                    <!-- Desktop Version -->
+                    <div class="col-md-6 desktop-view">
+                        <div class="product-gallery">
+                            <figure class="product-main-image">
+                                <img id="product-zoom" src="{{ asset($product->thumbnail_img) }}" data-zoom-image="{{ asset($product->thumbnail_img) }}" alt="product image">
+
+                                <a href="#" id="btn-product-gallery" class="btn-product-gallery">
+                                    <i class="icon-arrows"></i>
+                                </a>
+                            </figure><!-- End .product-main-image -->
+
+                            <div id="product-zoom-gallery" class="product-image-gallery">
+                                <a class="product-gallery-item" style="max-width: 20% !important;" href="#" data-image="{{ asset($product->thumbnail_img) }}" data-zoom-image="{{ asset($product->thumbnail_img) }}">
+                                    <img src="{{ asset($product->thumbnail_img) }}" alt="product side">
+                                </a>
+                                @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+                                    @foreach($product->variants->where('color_id', '!=', null)->unique('color_id') as $variantImage)
+                                        @if ($variantImage->image !== $product->thumbnail_img)
+                                            <a class="product-gallery-item zoom-image" style="max-width: 20% !important;" href="#" data-image="{{ asset($variantImage->image) }}" data-zoom-image="{{ asset($variantImage->image) }}">
+                                                <img src="{{ asset($variantImage->image) }}" alt="product side">
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    @foreach($product->otherImages as $otherImage)
+                                        @if ($otherImage->gellery_image !== $product->thumbnail_img)
+                                            <a class="product-gallery-item" style="max-width: 20% !important;" href="#" data-image="{{ asset($otherImage->gellery_image) }}" data-zoom-image="{{ asset($otherImage->gellery_image) }}">
+                                                <img src="{{ asset($otherImage->gellery_image) }}" alt="product side">
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div><!-- End .product-image-gallery -->
+                        </div><!-- End .product-gallery -->
+                    </div><!-- End .col-md-6 -->
+
+                    <div class="col-md-6">
+                        <div class="product-details">
+                            <h1 class="product-title-show" style="font-size: 2.6rem;">{{$product->name}}</h1><!-- End .product-title -->
+
+                            <div class="product-price">
+                                <span class="new-price">&#2547;{{ number_format(discounted_price($product), 2) }}</span>
+
+                                @if(discounted_active($product))
+                                    <span class="old-price" id="discountWithoutPrice">&#2547;{{ number_format($product->sell_price, 2) }}</span>
+                                @endif
+                            </div><!-- End .product-price -->
+
+{{--                            @if($product->is_short_description == 1)--}}
+{{--                                <div class="product-content">--}}
+{{--                                    <p>{!! \Illuminate\Support\Str::limit(strip_tags($product->short_description), 300) !!}</p>--}}
+{{--                                </div><!-- End .product-content -->--}}
+{{--                            @endif--}}
+
+                            @if($product->is_variant == 1)
+                                @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+                                    <div class="details-filter-row details-row-size" style="margin-bottom: 1%!important;">
+                                        <label>Color:</label>
+                                        <div class="product-nav product-nav-thumbs">
+                                            @foreach($product->variants->where('color_id', '!=', null)->unique('color_id') as $variant)
+                                                <a class="zoom-image btn-color {{ $loop->first ? '' : '' }}"
+                                                   data-color-id="{{ $variant->color_id }}" href="#"
+                                                   data-image="{{ asset($variant->image) }}"
+                                                   data-zoom-image="{{ asset($variant->image) }}"
+                                                   data-price="{{$variant->price}}"
+                                                   data-variant="{{$variant->variant}}"
+                                                   data-quantity="{{$variant->qty}}"
+                                                   data-discount="{{$variant->discount}}"
+                                                   data-discount-type="{{$variant->discount_type}}"
+                                                >
+{{--                                                    <img src="{{ asset($variant->image) }}" alt="product side">--}}
+                                                    <div style=" background-color: {{$variant->color->color_code}}; height: 100%; width: 100%;"></div>
+                                                </a>
+                                            @endforeach
+                                        </div><!-- End .product-nav -->
+                                    </div><!-- End .details-filter-row -->
+                                    <div class="details-filter-row details-row-size" style="margin-bottom: 0 !important;">
+                                        <label></label>
+                                        <div id="colorError" class="error-message" style="color: red; display: none;">Please select a color.<i class="fa fa-arrow-up"></i> </div>
+                                    </div>
+                                @endif
+
+                                @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+                                <div class="details-filter-row details-row-size" style="margin-bottom: 0 !important;">
+                                    <label>Size:</label>
+                                    <div class="size-buttons">
+                                        @foreach($product->variants->where('size_id', '!=', null)->unique('size_id') as $variant)
+                                            <button
+                                                type="button"
+                                                class="btn-size"
+                                                data-size-id="{{$variant->size_id}}"
+                                                data-price="{{$variant->price}}"
+                                                data-variant="{{$variant->variant}}"
+                                                data-quantity="{{$variant->qty}}"
+                                                data-discount="{{$variant->discount}}"
+                                                data-discount-type="{{$variant->discount_type}}">
+                                                {{$variant->size->name}}
+                                            </button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="details-filter-row details-row-size">
+                                    <label></label>
+                                    <div id="sizeError" class="error-message" style="color: red; display: none;">Please select a size.<i class="fa fa-arrow-up"></i> </div>
+                                </div>
+                                @endif
+                            @else
+
+                            @endif
+
+                            <div class="details-filter-row details-row-size">
+                                <label for="qty">Qty:</label>
+                                <div class="product-details-quantity">
+                                    <input type="number" id="qty" class="form-control qtyValue" value="{{$product->minimum_purchase_qty}}" min="{{$product->minimum_purchase_qty}}" max="{{$product->stock}}" step="1" data-decimals="0" required>
+                                </div><!-- End .product-details-quantity -->
+
+                                <div class="product-details-action" style="margin-bottom: 0 !important;">
+                                    <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
+                                        @csrf
+                                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                        <input type="hidden" name="quantity" value="{{$product->minimum_purchase_qty}}" id="productQuantity">
+                                        <input type="hidden" name="size" value="" id="productSize">
+                                        <input type="hidden" name="price" value="{{discounted_price($product)}}" id="productPrice">
+                                        <input type="hidden" name="discount" value="{{$product->discount}}" id="discountProduct">
+                                        <input type="hidden" name="discountType" value="{{$product->discount_type}}" id="discountType">
+                                        <input type="hidden" name="color" value="" id="productColor">
+                                        <input type="hidden" name="thumbnail_image" id="productThumbnailImage" value="{{ asset($product->thumbnail_img) }}">
+
+                                        <div id="inStock" style="display: block;">
+                                            @if($product->stock != 0)
+                                                <div class="details-action-wrapper">
+                                                    <button type="button" id="addToCartBtn" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Add to Cart</span></button>
+                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Buy Now</span></button>
+                                                </div>
+                                            @else
+                                                <div class="details-action-wrapper">
+                                                    <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Out of stock</span></button>
+                                                </div>
+                                            @endif
+                                        </div>
+                                        <div style="display: none;" id="outStock">
+                                            <div class="details-action-wrapper">
+                                                <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Out of stock</span></button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- End .details-filter-row -->
+                            <!-- End .product-details-action -->
+                            <div class="product-desc-content">
+                                <p>{!! $product->description !!}</p>
+                            </div>
+                            <div class="product-details-footer">
+                                <div class="product-cat">
+                                    <span>Category:</span>
+                                    @if($product->category->parentCategory)
+                                        <a href="{{route('category.product', ['id' => $product->category->parentCategory->id])}}">{{$product->category->parentCategory->category_name}}</a>,
+                                        <a href="{{route('category.product', ['id' => $product->category->id])}}">{{$product->category->category_name}}</a>
+                                    @else
+                                        <a href="{{route('category.product', ['id' => $product->category->id])}}">{{$product->category->category_name}}</a>
+                                    @endif
+                                </div><!-- End .product-cat -->
+
+                                <div class="social-icons social-icons-sm">
+                                    <span class="social-label">Share:</span>
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ route('product.show', ['id' => $product->id, 'slug' => $product->slug]) }}" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
+                                    <a href="https://twitter.com/intent/tweet?url={{ route('product.show', ['id' => $product->id, 'slug' => $product->slug]) }}&text={{ urlencode($product->name) }}" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
+                                    <a href="https://www.linkedin.com/shareArticle?url={{ route('product.show', ['id' => $product->id, 'slug' => $product->slug]) }}" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
+                                    <a href="#" class="social-icon" title="WhatsApp" onclick="openWhatsApp()" target="_blank"><i class="icon-whatsapp"></i></a>
+                                </div>
+
+                                <!-- Hidden input to store the converted name -->
+                                <input type="hidden" id="convertedName" value="{{ $convertedName }}">
+                                <input type="hidden" id="productID" value="{{ $product->id }}">
+
+                                <!-- Element to display the combined name -->
+{{--                                <div id="combinedNameDisplay"></div>--}}
+{{--                                <p>Group id: {{$convertedName}}</p>--}}
+                            </div><!-- End .product-details-footer -->
+                        </div><!-- End .product-details -->
+                    </div><!-- End .col-md-6 -->
+                    <!-- End .col-md-6 -->
+                </div><!-- End .row -->
+            </div><!-- End .product-details-top -->
+
+            <h2 class="title text-center mb-4">Releted Products</h2><!-- End .title text-center -->
+            <div class="products mb-3">
+                <div class="row justify-content-center">
+                    @foreach($relatedProducts as $category_product)
+                        <div class="col-6 col-md-2 col-lg-2 col-xl-2"> <!-- Changed from col-6, col-md-4, col-lg-4, col-xl-3 to col-2 -->
+                            <div class="product product-7 text-center">
+                                <figure class="product-media">
+                                    @php
+                                        $isNew = \Carbon\Carbon::parse($category_product->created_at)->gt(\Carbon\Carbon::now()->subDays(10));
+                                    @endphp
+
+                                    @if($isNew)
+                                        <span class="product-label label-new">New</span>
+                                    @endif
+
+                                    <a href="{{route('product.show', ['id' => $category_product->id, 'slug' => $category_product->slug])}}">
+                                        <img src="{{asset($category_product->thumbnail_img)}}" alt="Product image" class="product-image">
+                                    </a>
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="{{route('category.product', ['id' => $category_product->category_id])}}">{{$category_product->category->category_name}}</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title">
+                                        <a href="{{route('product.show', ['id' => $category_product->id, 'slug' => $category_product->slug])}}">{{\Illuminate\Support\Str::limit($category_product->name, 40)}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="new-price">&#2547;{{ number_format(discounted_price($category_product), 2) }}</span>
+
+                                        @if(discounted_active($category_product))
+                                            <span class="old-price">&#2547;{{ number_format(discounted_price($category_product), 2) }}</span>
+                                        @endif
+                                    </div><!-- End .product-price -->
+{{--                                    <div class="ratings-container">--}}
+{{--                                        <div class="ratings">--}}
+{{--                                            <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->--}}
+{{--                                        </div><!-- End .ratings -->--}}
+{{--                                        <span class="ratings-text">( 2 Reviews )</span>--}}
+{{--                                    </div><!-- End .rating-container -->--}}
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .col-2 -->
+                    @endforeach
+                </div><!-- End .row -->
+            </div><!-- End .products -->
+
+            <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
+            <div class="products mb-3">
+                <div class="row justify-content-center">
+                    @foreach($featuredProducts as $featuredProduct)
+                        <div class="col-6 col-md-2 col-lg-2 col-xl-2"> <!-- Changed from col-6, col-md-4, col-lg-4, col-xl-3 to col-2 -->
+                            <div class="product product-7 text-center">
+                                <figure class="product-media">
+                                    @php
+                                        $isNew = \Carbon\Carbon::parse($featuredProduct->created_at)->gt(\Carbon\Carbon::now()->subDays(10));
+                                    @endphp
+
+                                    @if($isNew)
+                                        <span class="product-label label-new">New</span>
+                                    @endif
+
+                                    <a href="{{route('product.show', ['id' => $featuredProduct->id, 'slug' => $featuredProduct->slug])}}">
+                                        <img src="{{asset($featuredProduct->thumbnail_img)}}" alt="Product image" class="product-image">
+                                    </a>
+                                </figure><!-- End .product-media -->
+
+                                <div class="product-body">
+                                    <div class="product-cat">
+                                        <a href="{{route('category.product', ['id' => $featuredProduct->category_id])}}">{{$featuredProduct->category->category_name}}</a>
+                                    </div><!-- End .product-cat -->
+                                    <h3 class="product-title">
+                                        <a href="{{route('product.show', ['id' => $featuredProduct->id, 'slug' => $featuredProduct->slug])}}">{{\Illuminate\Support\Str::limit($featuredProduct->name, 40)}}</a></h3><!-- End .product-title -->
+                                    <div class="product-price">
+                                        <span class="new-price">&#2547;{{ number_format(discounted_price($featuredProduct), 2) }}</span>
+
+                                        @if(discounted_active($featuredProduct))
+                                            <span class="old-price">&#2547;{{ number_format($featuredProduct->sell_price, 2) }}</span>
+                                        @endif
+                                    </div><!-- End .product-price -->
+{{--                                    <div class="ratings-container">--}}
+{{--                                        <div class="ratings">--}}
+{{--                                            <div class="ratings-val" style="width: 100%;"></div><!-- End .ratings-val -->--}}
+{{--                                        </div><!-- End .ratings -->--}}
+{{--                                        <span class="ratings-text">( 2 Reviews )</span>--}}
+{{--                                    </div><!-- End .rating-container -->--}}
+                                </div><!-- End .product-body -->
+                            </div><!-- End .product -->
+                        </div><!-- End .col-2 -->
+                    @endforeach
+                </div><!-- End .row -->
+            </div><!-- End .products -->
+        </div><!-- End .container -->
+    </div><!-- End .page-content -->
+
+    <!-- Cart Modal -->
+    {{-- <div id="cartModal" style="display: none; position: fixed; z-index: 1000; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 8px; text-align: center; padding: 20px; animation: fadeIn 0.5s;">
+        <span id="closeModal" style="position: absolute; top: 10px; right: 15px; font-size: 22px; cursor: pointer;">&times;</span>
+        <div class="text-center text-success">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+                <g id="Group_23957" data-name="Group 23957" transform="translate(-6269 7766)">
+                    <path id="Path_28713" data-name="Path 28713" d="M12.8,32.8a3.6,3.6,0,1,0,3.6,3.6A3.584,3.584,0,0,0,12.8,32.8ZM2,4V7.6H5.6l6.471,13.653-2.43,4.41A3.659,3.659,0,0,0,9.2,27.4,3.6,3.6,0,0,0,12.8,31H34.4V27.4H13.565a.446.446,0,0,1-.45-.45.428.428,0,0,1,.054-.216L14.78,23.8H28.19a3.612,3.612,0,0,0,3.15-1.854l6.435-11.682A1.74,1.74,0,0,0,38,9.4a1.8,1.8,0,0,0-1.8-1.8H9.587L7.877,4H2ZM30.8,32.8a3.6,3.6,0,1,0,3.6,3.6A3.584,3.584,0,0,0,30.8,32.8Z" transform="translate(6267 -7770)" fill="#85b567"></path>
+                    <rect id="Rectangle_18068" data-name="Rectangle 18068" width="9" height="3" rx="1.5" transform="translate(6284.343 -7757.879) rotate(45)" fill="#fff"></rect>
+                    <rect id="Rectangle_18069" data-name="Rectangle 18069" width="3" height="13" rx="1.5" transform="translate(6295.657 -7760.707) rotate(45)" fill="#fff"></rect>
+                </g>
+            </svg>
+            <h3 class="fs-28 text-success">Item added to your cart!</h3>
+        </div>
+        <!-- Product Info -->
+        <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
+            <!-- Product Image -->
+            <img id="modalImage" src="" alt="Product Image" style="width: 100px; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+            <!-- Product Details -->
+            <div style="text-align: left;">
+                <p id="modalProductTitle" style="font-weight: bold; font-size: 16px; margin: 0;"></p>
+                <p style="color: red; font-size: 18px; margin: 5px 0;">৳<span id="modalProductPrice"></span></p>
+            </div>
+        </div>
+        <!-- Buttons -->
+        <div style="margin-top: 20px; display: flex; justify-content: space-around;">
+            <button id="closeModalBack" style="background-color: green; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Back to shipping</button>
+            <button onclick="location.href='{{route('checkout')}}'" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Proceed to checkout</button>
+        </div>
+    </div> --}}
+
+    <!-- Overlay -->
+    <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; animation: fadeIn 0.5s;"></div>
+
+    <!-- CSS for fadeIn animation and mobile responsiveness -->
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media screen and (max-width: 768px) {
+            #cartModal {
+                width: 98% !important; /* Adjust width for mobile devices */
+                padding: 15px;
+            }
+
+            #modalImage {
+                width: 80px; /* Resize image for smaller screens */
+            }
+
+            #modalProductTitle {
+                font-size: 14px; /* Adjust font size for smaller screens */
+            }
+
+            #modalProductPrice {
+                font-size: 16px; /* Adjust font size for smaller screens */
+            }
+
+            .button-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .button-container button {
+                width: 100%; /* Make buttons full width on small screens */
+            }
+        }
+    </style>
+
+
+
+    <script>
+        function openWhatsApp() {
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+            if (isMobile) {
+                const encodedTitle = encodeURIComponent("{{ $product->name }}");
+                const encodedUrl = encodeURIComponent("{{ route('product.show', ['id' => $product->id, 'slug'=>$product->slug]) }}");
+                const whatsappUrl = `whatsapp://send?text=${encodedTitle} - ${encodedUrl}`;
+
+                window.location.href = whatsappUrl; // Open in WhatsApp app directly
+            } else {
+                const encodedTitle = encodeURIComponent("{{ $product->name }}");
+                const encodedUrl = encodeURIComponent("{{ route('product.show', ['id' => $product->id, 'slug'=>$product->slug]) }}");
+                const whatsappUrl = `https://web.whatsapp.com/send?text=${encodedTitle} - ${encodedUrl}`;
+
+                // Adjust the width and height of the popup window as per your requirement
+                const popupWidth = 800;
+                const popupHeight = 400;
+                const left = (screen.width - popupWidth) / 2;
+                const top = (screen.height - popupHeight) / 2;
+                const popupOptions = `width=${popupWidth},height=${popupHeight},left=${left},top=${top},scrollbars=yes`;
+
+                window.open(whatsappUrl, '_blank', popupOptions); // Open in popup window
+            }
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var addToCartBtn = document.getElementById('addToCartBtn');
+
+            if (addToCartBtn) {
+                addToCartBtn.addEventListener('click', function () {
+                    @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+                    if (!validateSizeSelection()) return;
+                    @endif
+                    @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+                    if (!validateColorSelection()) return;
+                    @endif
+
+                    // Assuming `productData` is available and holds the product information
+                    var productData = {
+                        name: "{{ $product->name }}",
+                        id: "{{ $product->id }}",
+                        price: parseFloat("{{ discounted_price($product) }}"),
+                        brand: {
+                            name: "{{ $product->brand->name ?? '' }}"
+                        },
+                        category: {
+                            category_name: "{{ $product->category->category_name ?? '' }}"
+                        },
+                        subCategory: {
+                            category_name: "{{ $product->subCategory->category_name ?? '' }}"
+                        },
+                        stock: parseInt("{{ $product->stock }}", 10)
+                    };
+
+                    addToCartData(productData);
+                });
+            }
+        });
+
+        // Function to push data to the dataLayer
+        function addToCartData(data) {
+            console.log('Product data:', data);
+
+            dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+            dataLayer.push({
+                event: "add_to_cart",
+                ecommerce: {
+                    currency: "BDT",
+                    value: data.price, // Use the fetched or calculated cart total here
+                    items: [{
+                        item_name: data.name, // Name or ID is required.
+                        item_id: data.id,
+                        price: data.price,
+                        item_brand: data.brand?.name || "",
+                        item_category: data.category?.category_name || "",
+                        item_category2: data.subCategory?.category_name || "",
+                        item_variant: "",
+                        quantity: 1 // Assuming a quantity of 1
+                    }]
+                }
+            });
+        }
+    </script>
+
+
+
+    <script>
+        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
+        dataLayer.push({
+            event : "view_item",
+            ecommerce: {
+                currency: "BDT",
+                value: {{discounted_price($product)}},
+                items: [{
+                    item_name : "{{$product->name}}", // Name or ID is required.
+                    item_id : {{$product->id}},
+                    price : {{$product->sell_price}},
+                    item_brand : "{{$product->brand->name ?? ""}}",
+                    item_category : "{{$product->category->category_name ?? ""}}",
+                    item_category2 : "{{$product->subCategory->category_name ?? ""}}",
+                    item_category3: "",
+                    item_category4: "",
+                    item_variant : "",
+                    item_group_id: "",  // Unique group ID for this product line
+                    retailer_item_id: "",  // Unique retailer item ID for the Small variant
+                    item_list_name: "", // If associated with a list selection.
+                    item_list_id : "", // If associated with a list selection.
+                    index : 0, // If associated with a list selection.
+                    quantity : {{$product->stock}},
+                }]
+            }
+        });
+    </script>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Ensure no button is selected by default
+            document.querySelectorAll('.btn-size').forEach(button => {
+                button.classList.remove('active'); // Remove active class from all buttons
+            });
+            document.querySelectorAll('.product-nav-thumbs a').forEach(function(el) {
+                el.classList.remove('active');
+            });
+        });
+
+        function updateCartDropdown() {
+            $.ajax({
+                url: '{{ route('cart.dropdown') }}',
+                method: 'GET',
+                success: function(response) {
+                    $('.cart-dropdown').html(response); // Update the cart dropdown HTML
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
+
+        @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+        document.querySelectorAll('.btn-size').forEach(button => {
+            button.addEventListener('click', function() {
+                // Toggle the active class when a size button is clicked
+                document.querySelectorAll('.btn-size').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const basePrice = parseFloat(this.dataset.price);
+                const discount = parseFloat(this.dataset.discount);
+                const variantName = this.dataset.variant;
+                const discountType = this.dataset.discountType;
+                const variantQty = this.dataset.quantity;
+
+                let withoutDiscountPrice = basePrice;
+                let finalPrice = basePrice;
+                if (discount > 0) {
+                    finalPrice = discountType == 2 ? basePrice - (basePrice * (discount / 100)) : basePrice - discount;
+                }
+
+                // Update the hidden fields and displayed price
+                document.getElementById('productPrice').value = finalPrice.toFixed(2);
+                document.getElementById('discountWithoutPrice').textContent =  '৳' + withoutDiscountPrice.toFixed(2);
+                document.getElementById('discountProduct').value = discount.toFixed(2);
+                document.getElementById('discountType').value = discountType;
+                document.querySelector('.new-price').textContent = '৳' + finalPrice.toFixed(2);
+                document.getElementById('productSize').value = this.dataset.sizeId;
+                document.getElementById('variantName').value = variantName;
+
+                // Set the max value for qty input based on variant quantity
+                const qtyInput = document.getElementById('qty');
+                qtyInput.max = variantQty;
+                qtyInput.value = Math.min(qtyInput.value, variantQty);
+
+                // Toggle stock status based on variant quantity
+                if (variantQty == 0) {
+                    document.getElementById('inStock').style.display = 'none';
+                    document.getElementById('outStock').style.display = 'block';
+                } else {
+                    document.getElementById('inStock').style.display = 'block';
+                    document.getElementById('outStock').style.display = 'none';
+                }
+
+                // Hide size error message if a size has been selected
+                document.getElementById('sizeError').style.display = 'none';
+                document.getElementById('colorError').style.display = 'none';
+            });
+        });
+        @endif
+
+        @if($product->variants->where('color_id', '!=', null)->where('size_id', null)->unique('color_id')->count() > 0)
+        document.querySelectorAll('.btn-color').forEach(button => {
+            button.addEventListener('click', function() {
+                // Toggle the active class when a size button is clicked
+                document.querySelectorAll('.btn-color').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const basePrice = parseFloat(this.dataset.price);
+                const discount = parseFloat(this.dataset.discount);
+                const variantName = this.dataset.variant;
+                const discountType = this.dataset.discountType;
+                const variantQty = this.dataset.quantity;
+
+                let withoutDiscountPrice = basePrice;
+                let finalPrice = basePrice;
+                if (discount > 0) {
+                    finalPrice = discountType == 2 ? basePrice - (basePrice * (discount / 100)) : basePrice - discount;
+                }
+
+                // Update the hidden fields and displayed price
+                document.getElementById('productPrice').value = finalPrice.toFixed(2);
+                document.getElementById('discountWithoutPrice').textContent =  '৳' + withoutDiscountPrice.toFixed(2);
+                document.getElementById('discountProduct').value = discount.toFixed(2);
+                document.getElementById('discountType').value = discountType;
+                document.querySelector('.new-price').textContent = '৳' + finalPrice.toFixed(2);
+                document.getElementById('variantName').value = variantName;
+
+                // Set the max value for qty input based on variant quantity
+                const qtyInput = document.getElementById('qty');
+                qtyInput.max = variantQty;
+                qtyInput.value = Math.min(qtyInput.value, variantQty);
+
+                // Toggle stock status based on variant quantity
+                if (variantQty == 0) {
+                    document.getElementById('inStock').style.display = 'none';
+                    document.getElementById('outStock').style.display = 'block';
+                } else {
+                    document.getElementById('inStock').style.display = 'block';
+                    document.getElementById('outStock').style.display = 'none';
+                }
+
+                // Hide size error message if a size has been selected
+                document.getElementById('sizeError').style.display = 'none';
+                document.getElementById('colorError').style.display = 'none';
+            });
+        });
+        @endif
+
+        // Color selection logic
+        document.querySelectorAll('.product-nav-thumbs a').forEach(function(element) {
+            element.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.getElementById('productColor').value = this.getAttribute('data-color-id');
+
+                document.querySelectorAll('.product-nav-thumbs a').forEach(function(el) {
+                    el.classList.remove('active');
+                });
+                this.classList.add('active');
+            });
+
+            document.getElementById('colorError').style.display = 'none';
+        });
+
+        // Quantity validation logic
+        document.getElementById('qty').addEventListener('input', function () {
+            const maxQty = parseInt(this.max);
+            let qty = parseInt(this.value);
+
+            if (qty > maxQty) {
+                qty = maxQty;
+                this.value = qty;
+            }
+
+            document.getElementById('productQuantity').value = qty;
+        });
+
+        // Reset form after adding to cart
+        function resetForm() {
+            @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+            document.getElementById('sizeError').style.display = 'none';
+            @endif
+            @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+            document.getElementById('colorError').style.display = 'none';
+            @endif
+            document.getElementById('qty').value = {{$product->minimum_purchase_qty}};
+            document.getElementById('productPrice').value = '';
+            document.getElementById('discountProduct').value = 0;
+            document.getElementById('discountType').value = 1;
+            document.getElementById('productSize').value = '';
+            document.getElementById('productQuantity').value = {{$product->minimum_purchase_qty}};
+            document.getElementById('productColor').value = '';
+            document.getElementById('productThumbnailImage').value = '{{ asset($product->thumbnail_img) }}';
+
+            document.querySelectorAll('.product-nav-thumbs a').forEach(function(el) {
+                el.classList.remove('active');
+            });
+
+            document.querySelectorAll('.btn-size').forEach(btn => btn.classList.remove('active'));
+            this.classList.remove('active');
+        }
+
+        // Validate size selection before adding to cart
+        function validateSizeSelection() {
+            const size = document.querySelector('.btn-size.active'); // Find the active size button
+            if (!size) {
+                document.getElementById('sizeError').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+        // Validate size selection before adding to cart
+        function validateColorSelection() {
+            const color = document.querySelector('.product-nav-thumbs a.active'); // Find the active size button
+            if (!color) {
+                document.getElementById('colorError').style.display = 'block';
+                return false;
+            }
+            return true;
+        }
+
+
+    // Add to cart logic
+        document.getElementById('addToCartBtn').addEventListener('click', function () {
+            @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+            if (!validateSizeSelection()) return;
+            @endif
+            @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+            if (!validateColorSelection()) return;
+            @endif
+
+            // Submit the form via AJAX request
+            const formData = new FormData(document.getElementById('addToCartForm'));
+
+            $.ajax({
+                url: '{{ route('cart.add') }}', // Update with your route
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    // Show success notification
+                    toastr.success(response.message);
+                    updateCartDropdown();
+
+                    // Populate modal data
+                    document.getElementById('modalImage').src = document.getElementById('productThumbnailImage').value; // Product image
+                    document.getElementById('modalProductTitle').textContent = '{{ $product->name }}'; // Product title
+                    document.getElementById('modalProductPrice').textContent = document.getElementById('productPrice').value; // Product price
+
+                    // Show modal and overlay
+                    document.getElementById('cartModal').style.display = 'block';
+                    document.getElementById('modalOverlay').style.display = 'block';
+
+                    // Reset form
+                    resetForm();
+                },
+                error: function (error) {
+                    toastr.error('Error adding product to cart.');
+                }
+            });
+        });
+
+
+        document.getElementById("addToBuyBtn").addEventListener("click", function(event) {
+            let isValid = true;
+
+            @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+            if (!validateSizeSelection()) {
+                isValid = false;
+            }
+            @endif
+
+                @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+            if (!validateColorSelection()) {
+                isValid = false;
+            }
+            @endif
+
+            if (!isValid) {
+                event.preventDefault(); // Prevent form submission
+            }
+        });
+
+
+
+        // Close Modal
+        document.getElementById('closeModal').addEventListener('click', function () {
+            document.getElementById('cartModal').style.display = 'none';
+            document.getElementById('modalOverlay').style.display = 'none';
+        });
+        // Close Modal
+        document.getElementById('closeModalBack').addEventListener('click', function () {
+            document.getElementById('cartModal').style.display = 'none';
+            document.getElementById('modalOverlay').style.display = 'none';
+        });
+
+        document.getElementById('modalOverlay').addEventListener('click', function () {
+            document.getElementById('cartModal').style.display = 'none';
+            document.getElementById('modalOverlay').style.display = 'none';
+        });
+
+
+        // Prevent submitting if no size is selected
+        document.querySelector('button[name="button"][value="2"]').addEventListener('click', function (e) {
+            @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
+            if (!validateSizeSelection()) {
+                e.preventDefault();
+            }
+            @endif
+            @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
+            if (!validateColorSelection()) {
+                e.preventDefault();
+            }
+            @endif
+        });
+    </script>
+
+
+
+@endsection
