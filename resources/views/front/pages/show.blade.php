@@ -457,7 +457,7 @@
     </div><!-- End .page-content -->
 
     <!-- Cart Modal -->
-    {{-- <div id="cartModal" style="display: none; position: fixed; z-index: 1000; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 8px; text-align: center; padding: 20px; animation: fadeIn 0.5s;">
+     <div id="cartModal" style="display: none; position: fixed; z-index: 1000; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 8px; text-align: center; padding: 20px; animation: fadeIn 0.5s;">
         <span id="closeModal" style="position: absolute; top: 10px; right: 15px; font-size: 22px; cursor: pointer;">&times;</span>
         <div class="text-center text-success">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
@@ -484,7 +484,7 @@
             <button id="closeModalBack" style="background-color: green; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Back to shipping</button>
             <button onclick="location.href='{{route('checkout')}}'" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Proceed to checkout</button>
         </div>
-    </div> --}}
+    </div>
 
     <!-- Overlay -->
     <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; animation: fadeIn 0.5s;"></div>
