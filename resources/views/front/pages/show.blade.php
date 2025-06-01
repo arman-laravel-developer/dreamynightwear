@@ -324,7 +324,7 @@
                                         </div>
                                     </form>
                                     <div class="details-action-wrapper d-flex justify-content-end" style="margin-top: 10px;">
-                                        <a href="https://wa.me/?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
+                                        <a href="https://wa.me/{{$generalSettingView->pinterest_url}}?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
                                            target="_blank"
                                            class="btn-product"
                                            style="background-color: #25D366; color: white; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
