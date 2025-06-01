@@ -293,7 +293,7 @@
                                     <input type="number" id="qty" class="form-control qtyValue" value="{{$product->minimum_purchase_qty}}" min="{{$product->minimum_purchase_qty}}" max="{{$product->stock}}" step="1" data-decimals="0" required>
                                 </div><!-- End .product-details-quantity -->
 
-                                <div class="product-details-action" style="margin-bottom: 0 !important;">
+                                <div class="product-details-action" style="margin-bottom: 0 !important; display: block">
                                     <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -308,21 +308,29 @@
                                         <div id="inStock" style="display: block;">
                                             @if($product->stock != 0)
                                                 <div class="details-action-wrapper">
-                                                    <button type="button" id="addToCartBtn" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Add to Cart</span></button>
-                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Buy Now</span></button>
+                                                    <button type="button" id="addToCartBtn" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>কার্টে যোগ করুন</span></button>
+                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>এখনই কিনুন</span></button>
                                                 </div>
                                             @else
                                                 <div class="details-action-wrapper">
-                                                    <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Out of stock</span></button>
+                                                    <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>স্টক শেষ</span></button>
                                                 </div>
                                             @endif
                                         </div>
                                         <div style="display: none;" id="outStock">
                                             <div class="details-action-wrapper">
-                                                <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>Out of stock</span></button>
+                                                <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>স্টক শেষ</span></button>
                                             </div>
                                         </div>
                                     </form>
+                                    <div class="details-action-wrapper d-flex justify-content-end" style="margin-top: 10px;">
+                                        <a href="https://wa.me/?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
+                                           target="_blank"
+                                           class="btn-product"
+                                           style="background-color: #25D366; color: white; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
+                                            <i class="fab fa-whatsapp"></i> <span style="color: white;">হোয়াটসঅ্যাপে অর্ডার করুন</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div><!-- End .details-filter-row -->
                             <!-- End .product-details-action -->
@@ -467,7 +475,7 @@
                     <rect id="Rectangle_18069" data-name="Rectangle 18069" width="3" height="13" rx="1.5" transform="translate(6295.657 -7760.707) rotate(45)" fill="#fff"></rect>
                 </g>
             </svg>
-            <h3 class="fs-28 text-success">Item added to your cart!</h3>
+            <h3 class="fs-28 text-success">আইটেমটি আপনার কার্টে যোগ করা হয়েছে!</h3>
         </div>
         <!-- Product Info -->
         <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
@@ -481,8 +489,8 @@
         </div>
         <!-- Buttons -->
         <div style="margin-top: 20px; display: flex; justify-content: space-around;">
-            <button id="closeModalBack" style="background-color: green; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Back to shipping</button>
-            <button onclick="location.href='{{route('checkout')}}'" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">Proceed to checkout</button>
+            <button id="closeModalBack" style="background-color: green; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">শপিং এ ফিরে যান</button>
+            <button onclick="location.href='{{route('checkout')}}'" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">এখনই কিনুন</button>
         </div>
     </div>
 
