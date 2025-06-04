@@ -408,13 +408,13 @@
                                             <form action="" method="POST" class="m-0 p-0">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $category_product->id }}">
-                                                <button type="submit" class="btn-outline-warning d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: none">
+                                                <button type="submit" class="btn-outline-primary d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: #cc9966; background-color: whitesmoke">
                                                     <i class="fas fa-shopping-cart"></i>
                                                 </button>
                                             </form>
 
                                             <a href=""
-                                               class=" btn-warning text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
+                                               class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
                                                 এখনই কিনুন &rarr;
                                             </a>
                                         </div>
@@ -470,13 +470,13 @@
                                             <form action="" method="POST" class="m-0 p-0">
                                                 @csrf
                                                 <input type="hidden" name="product_id" value="{{ $featuredProduct->id }}">
-                                                <button type="submit" class="btn-outline-warning d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: none">
+                                                <button type="submit" class="btn-outline-primary d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: #cc9966; background-color: whitesmoke">
                                                     <i class="fas fa-shopping-cart"></i>
                                                 </button>
                                             </form>
 
                                             <a href=""
-                                               class=" btn-warning text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
+                                               class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
                                                 এখনই কিনুন &rarr;
                                             </a>
                                         </div>
