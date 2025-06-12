@@ -415,7 +415,9 @@
 
                                             <a href=""
                                                class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
-                                                এখনই কিনুন &rarr;
+                                                এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                    <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
+                                </svg>
                                             </a>
                                         </div>
                                     </div>
@@ -477,7 +479,9 @@
 
                                             <a href=""
                                                class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
-                                                এখনই কিনুন &rarr;
+                                                এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                    <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
+                                </svg>
                                             </a>
                                         </div>
                                     </div>
