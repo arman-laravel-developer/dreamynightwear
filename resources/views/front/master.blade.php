@@ -425,9 +425,11 @@
         </div><!-- End .footer-bottom -->
     </footer><!-- End .footer -->
 </div><!-- End .page-wrapper -->
+@if(!Route::is('product.show'))
 <div class="fixed_whats">
     <a href="https://api.whatsapp.com/send/?phone={{$generalSettingView->pinterest_url}}" target="_blank"><i class="icon-whatsapp"></i></a>
 </div>
+@endif
 
 <button id="scroll-top" title="Back to Top"><i class="icon-arrow-up"></i></button>
 
@@ -606,6 +608,74 @@
     </script>
 @endif
 
+<!-- Cart Modal -->
+<div id="cartModal" style="display: none; position: fixed; z-index: 1000; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 8px; text-align: center; padding: 20px; animation: fadeIn 0.5s;">
+    <span id="closeModal" style="position: absolute; top: 10px; right: 15px; font-size: 22px; cursor: pointer;">&times;</span>
+    <div class="text-center text-success">
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
+            <g id="Group_23957" data-name="Group 23957" transform="translate(-6269 7766)">
+                <path id="Path_28713" data-name="Path 28713" d="M12.8,32.8a3.6,3.6,0,1,0,3.6,3.6A3.584,3.584,0,0,0,12.8,32.8ZM2,4V7.6H5.6l6.471,13.653-2.43,4.41A3.659,3.659,0,0,0,9.2,27.4,3.6,3.6,0,0,0,12.8,31H34.4V27.4H13.565a.446.446,0,0,1-.45-.45.428.428,0,0,1,.054-.216L14.78,23.8H28.19a3.612,3.612,0,0,0,3.15-1.854l6.435-11.682A1.74,1.74,0,0,0,38,9.4a1.8,1.8,0,0,0-1.8-1.8H9.587L7.877,4H2ZM30.8,32.8a3.6,3.6,0,1,0,3.6,3.6A3.584,3.584,0,0,0,30.8,32.8Z" transform="translate(6267 -7770)" fill="#85b567"></path>
+                <rect id="Rectangle_18068" data-name="Rectangle 18068" width="9" height="3" rx="1.5" transform="translate(6284.343 -7757.879) rotate(45)" fill="#fff"></rect>
+                <rect id="Rectangle_18069" data-name="Rectangle 18069" width="3" height="13" rx="1.5" transform="translate(6295.657 -7760.707) rotate(45)" fill="#fff"></rect>
+            </g>
+        </svg>
+        <h3 class="fs-28 text-success">আইটেমটি আপনার কার্টে যোগ করা হয়েছে!</h3>
+    </div>
+    <!-- Product Info -->
+    <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
+        <!-- Product Image -->
+        <img id="modalImage" src="" alt="Product Image" style="width: 100px; height: auto; border: 1px solid #ddd; border-radius: 4px;">
+        <!-- Product Details -->
+        <div style="text-align: left;">
+            <p id="modalProductTitle" style="font-weight: bold; font-size: 16px; margin: 0;"></p>
+            <p style="color: red; font-size: 18px; margin: 5px 0;">৳<span id="modalProductPrice"></span></p>
+        </div>
+    </div>
+    <!-- Buttons -->
+    <div style="margin-top: 20px; display: flex; justify-content: space-around;">
+        <button id="closeModalBack" style="background-color: green; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">শপিং এ ফিরে যান</button>
+        <button onclick="location.href='{{route('checkout')}}'" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">এখনই কিনুন</button>
+    </div>
+</div>
+
+<!-- Overlay -->
+<div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; animation: fadeIn 0.5s;"></div>
+
+<!-- CSS for fadeIn animation and mobile responsiveness -->
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @media screen and (max-width: 768px) {
+        #cartModal {
+            width: 98% !important; /* Adjust width for mobile devices */
+            padding: 15px;
+        }
+
+        #modalImage {
+            width: 80px; /* Resize image for smaller screens */
+        }
+
+        #modalProductTitle {
+            font-size: 14px; /* Adjust font size for smaller screens */
+        }
+
+        #modalProductPrice {
+            font-size: 16px; /* Adjust font size for smaller screens */
+        }
+
+        .button-container {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .button-container button {
+            width: 100%; /* Make buttons full width on small screens */
+        }
+    }
+</style>
 
 
 

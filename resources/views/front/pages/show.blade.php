@@ -77,6 +77,31 @@
             flex-wrap: wrap !important; /* Allow wrapping if there are many buttons */
             gap: 5px !important; /* Add spacing between buttons */
         }
+        @media only screen and (max-width: 767px) {
+            .mobile-sticky-footer {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: #fff;
+                z-index: 9999;
+                padding: 10px;
+                box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+                border-top: 1px solid #eee;
+            }
+
+            .mobile-sticky-footer form,
+            .mobile-sticky-footer .details-action-wrapper {
+                flex-direction: row;
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            .mobile-sticky-footer .btn-product {
+                flex: 1;
+                text-align: center;
+            }
+        }
     </style>
 
     <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
@@ -293,7 +318,8 @@
                                     <input type="number" id="qty" class="form-control qtyValue" value="{{$product->minimum_purchase_qty}}" min="{{$product->minimum_purchase_qty}}" max="{{$product->stock}}" step="1" data-decimals="0" required>
                                 </div><!-- End .product-details-quantity -->
 
-                                <div class="product-details-action" style="margin-bottom: 0 !important; display: block">
+
+                                <div class="product-details-action mobile-sticky-footer" style="margin-bottom: 0 !important; display: block">
                                     <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -721,6 +747,7 @@
                 // Toggle the active class when a size button is clicked
                 document.querySelectorAll('.btn-size').forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
+                document.getElementById('productSize').value = this.getAttribute('data-size-id');
 
                 const basePrice = parseFloat(this.dataset.price);
                 const discount = parseFloat(this.dataset.discount);
@@ -740,7 +767,6 @@
                 document.getElementById('discountProduct').value = discount.toFixed(2);
                 document.getElementById('discountType').value = discountType;
                 document.querySelector('.new-price').textContent = '৳' + finalPrice.toFixed(2);
-                document.getElementById('productSize').value = this.dataset.sizeId;
                 document.getElementById('variantName').value = variantName;
 
                 // Set the max value for qty input based on variant quantity
@@ -865,27 +891,50 @@
             this.classList.remove('active');
         }
 
-        // Validate size selection before adding to cart
+        // Validate size selection with focus
         function validateSizeSelection() {
-            const size = document.querySelector('.btn-size.active'); // Find the active size button
+            const size = document.querySelector('.btn-size.active');
+            const sizeError = document.getElementById('sizeError');
+
             if (!size) {
-                document.getElementById('sizeError').style.display = 'block';
+                sizeError.style.display = 'block';
+
+                // Scroll to the size section smoothly
+                const sizeContainer = document.querySelector('.btn-size')?.closest('.product-size-section');
+                if (sizeContainer) {
+                    sizeContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
                 return false;
             }
+
+            sizeError.style.display = 'none';
             return true;
         }
-        // Validate size selection before adding to cart
+
+        // Validate color selection with focus
         function validateColorSelection() {
-            const color = document.querySelector('.product-nav-thumbs a.active'); // Find the active size button
+            const color = document.querySelector('.product-nav-thumbs a.active');
+            const colorError = document.getElementById('colorError');
+
             if (!color) {
-                document.getElementById('colorError').style.display = 'block';
+                colorError.style.display = 'block';
+
+                // Scroll to the color section smoothly
+                const colorContainer = document.querySelector('.product-nav-thumbs');
+                if (colorContainer) {
+                    colorContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+
                 return false;
             }
+
+            colorError.style.display = 'none';
             return true;
         }
 
 
-    // Add to cart logic
+        // Add to cart logic
         document.getElementById('addToCartBtn').addEventListener('click', function () {
             @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
             if (!validateSizeSelection()) return;
