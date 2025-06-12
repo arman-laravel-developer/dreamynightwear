@@ -431,20 +431,50 @@
                                     </div><!-- End .product-price -->
                                     <div class="ratings-container mt-2">
                                         <div class="d-flex w-100 " style="gap: 5%">
-                                            <form action="" method="POST" class="m-0 p-0">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $category_product->id }}">
-                                                <button type="submit" class="btn-outline-primary d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: #cc9966; background-color: whitesmoke">
+                                            @if(isset($category_product->variants) && $category_product->variants->isNotEmpty())
+                                                <a href="{{route('product.show', ['id' => $category_product->id, 'slug' => $category_product->slug])}}" class="btn-outline-primary d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: #cc9966; background-color: whitesmoke">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </a>
+
+                                                <a href="{{route('product.show', ['id' => $category_product->id, 'slug' => $category_product->slug])}}"
+                                                   class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
+                                                    এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                                        <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
+                                                    </svg>
+                                                </a>
+                                            @else
+                                                <form id="buyNowForm{{ $category_product->id }}" action="{{ route('cart.add') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $category_product->id }}">
+                                                    <input type="hidden" name="quantity" value="{{ $category_product->minimum_purchase_qty }}">
+                                                    <input type="hidden" name="price" value="{{ discounted_price($category_product) }}">
+                                                    <input type="hidden" name="discount" value="{{ $category_product->discount }}">
+                                                    <input type="hidden" name="discountType" value="{{ $category_product->discount_type }}">
+                                                    <input type="hidden" name="thumbnail_image" value="{{ asset($category_product->thumbnail_img) }}">
+
+                                                    <!-- Hidden button value field -->
+                                                    <input type="hidden" name="button" id="submitButtonValue{{ $category_product->id }}">
+                                                </form>
+                                                <button type="button"
+                                                        class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
+                                                        style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                                     <i class="fas fa-shopping-cart"></i>
                                                 </button>
-                                            </form>
 
-                                            <a href=""
-                                               class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
-                                                এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
-                                    <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
-                                </svg>
-                                            </a>
+                                                <a href="javascript:void(0);"
+                                                   onclick="
+                                                       document.getElementById('submitButtonValue{{ $category_product->id }}').value = '2';
+                                                       document.getElementById('buyNowForm{{ $category_product->id }}').submit();
+                                                       "
+                                                   class="btn-primary text-white d-flex justify-content-center align-items-center flex-fill"
+                                                   style="height: 38px;">
+                                                    এখনই কিনুন
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="ms-2"
+                                                         viewBox="0 0 16 16">
+                                                        <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z" />
+                                                    </svg>
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
 {{--                                    <div class="ratings-container">--}}
