@@ -132,28 +132,28 @@
     <header class="header header-7">
         <div class="header-top">
             <div class="container-fluid">
-                <div class="header-left">
-                    <div class="header-dropdown">
-                        <a href="javascript:void(0)">BDT</a>
-                        <div class="header-menu">
-                            <ul>
-                                <li><a href="javascript:void(0)">USD</a></li>
-                                <li><a href="javascript:void(0)">BDT</a></li>
-                            </ul>
-                        </div><!-- End .header-menu -->
-                    </div><!-- End .header-dropdown -->
+{{--                <div class="header-left">--}}
+{{--                    <div class="header-dropdown">--}}
+{{--                        <a href="javascript:void(0)">BDT</a>--}}
+{{--                        <div class="header-menu">--}}
+{{--                            <ul>--}}
+{{--                                <li><a href="javascript:void(0)">USD</a></li>--}}
+{{--                                <li><a href="javascript:void(0)">BDT</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div><!-- End .header-menu -->--}}
+{{--                    </div><!-- End .header-dropdown -->--}}
 
-                    <div class="header-dropdown">
-                        <a href="javascript:void(0)">Eng</a>
-                        <div class="header-menu">
-                            <ul>
-                                <li><a href="javascript:void(0)">English</a></li>
-                                <li><a href="javascript:void(0)">Bangla</a></li>
-                                <li><a href="javascript:void(0)">Spanish</a></li>
-                            </ul>
-                        </div><!-- End .header-menu -->
-                    </div><!-- End .header-dropdown -->
-                </div><!-- End .header-left -->
+{{--                    <div class="header-dropdown">--}}
+{{--                        <a href="javascript:void(0)">Eng</a>--}}
+{{--                        <div class="header-menu">--}}
+{{--                            <ul>--}}
+{{--                                <li><a href="javascript:void(0)">English</a></li>--}}
+{{--                                <li><a href="javascript:void(0)">Bangla</a></li>--}}
+{{--                                <li><a href="javascript:void(0)">Spanish</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div><!-- End .header-menu -->--}}
+{{--                    </div><!-- End .header-dropdown -->--}}
+{{--                </div><!-- End .header-left -->--}}
 
                 <div class="header-right">
                     <ul class="top-menu">
