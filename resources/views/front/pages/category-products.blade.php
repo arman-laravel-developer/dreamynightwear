@@ -124,6 +124,11 @@
                                                         <input type="hidden" name="button" id="submitButtonValue{{ $category_product->id }}">
                                                     </form>
                                                     <button type="button"
+                                                            onclick="addToCart({{ $category_product->id }})"
+                                                            data-product-id="{{ $category_product->id }}"
+                                                            data-product-title="{{ $category_product->name }}"
+                                                            data-product-price="{{ discounted_price($category_product) }}"
+                                                            data-product-image="{{ asset($category_product->thumbnail_img) }}"
                                                             class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
                                                             style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                                         <i class="fas fa-shopping-cart"></i>

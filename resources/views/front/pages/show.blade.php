@@ -333,9 +333,10 @@
 
                                         <div id="inStock" style="display: block;">
                                             @if($product->stock != 0)
-                                                <div class="details-action-wrapper">
-                                                    <button type="button" id="addToCartBtn" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>কার্টে যোগ করুন</span></button>
-                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>এখনই কিনুন</span></button>
+                                                <div class="details-action-wrapper" style="gap: 5%">
+                                                    <button type="button" id="addToCartBtn"  class="btn btn-sm btn-success" style="min-width: 0;height: 50px"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
+                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product btn-danger" style="height: 50px; text-decoration: none">
+                                                        <i class="fa fa-bolt"></i><span class="text-white">এখনই কিনুন</span></button>
                                                 </div>
                                             @else
                                                 <div class="details-action-wrapper">
@@ -350,11 +351,11 @@
                                         </div>
                                     </form>
                                     <div class="details-action-wrapper d-flex justify-content-end" style="margin-top: 10px;">
-                                        <a href="https://wa.me/{{$generalSettingView->pinterest_url}}?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
+                                        <a href="tel:{{$generalSettingView->mobile}}"
                                            target="_blank"
                                            class="btn-product"
-                                           style="background-color: #25D366; color: white; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
-                                            <i class="fab fa-whatsapp"></i> <span style="color: white;">হোয়াটসঅ্যাপে অর্ডার করুন</span>
+                                           style="background-color: #565656; color: #ffffff; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
+                                            <i class="fa fa-phone"></i>  &nbsp; কল করুন &nbsp; {{$generalSettingView->mobile}}
                                         </a>
                                     </div>
                                 </div>
@@ -456,6 +457,11 @@
                                                     <input type="hidden" name="button" id="submitButtonValue{{ $category_product->id }}">
                                                 </form>
                                                 <button type="button"
+                                                        onclick="addToCart({{ $category_product->id }})"
+                                                        data-product-id="{{ $category_product->id }}"
+                                                        data-product-title="{{ $category_product->name }}"
+                                                        data-product-price="{{ discounted_price($category_product) }}"
+                                                        data-product-image="{{ asset($category_product->thumbnail_img) }}"
                                                         class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
                                                         style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                                     <i class="fas fa-shopping-cart"></i>
@@ -525,20 +531,55 @@
                                     </div><!-- End .product-price -->
                                     <div class="ratings-container mt-2">
                                         <div class="d-flex w-100 " style="gap: 5%">
-                                            <form action="" method="POST" class="m-0 p-0">
-                                                @csrf
-                                                <input type="hidden" name="product_id" value="{{ $featuredProduct->id }}">
-                                                <button type="submit" class="btn-outline-primary d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: #cc9966; background-color: whitesmoke">
+                                            @if(isset($featuredProduct->variants) && $featuredProduct->variants->isNotEmpty())
+                                                <a href="{{route('product.show', ['id' => $featuredProduct->id, 'slug' => $featuredProduct->slug])}}" class="btn-outline-primary d-flex align-items-center justify-content-center" style="width: 42px; height: 38px; border: #cc9966; background-color: whitesmoke">
+                                                    <i class="fas fa-shopping-cart"></i>
+                                                </a>
+
+                                                <a href="{{route('product.show', ['id' => $featuredProduct->id, 'slug' => $featuredProduct->slug])}}"
+                                                   class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
+                                                    এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
+                                                        <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
+                                                    </svg>
+                                                </a>
+                                            @else
+                                                <form id="buyNowForm{{ $featuredProduct->id }}" action="{{ route('cart.add') }}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="product_id" value="{{ $featuredProduct->id }}">
+                                                    <input type="hidden" name="quantity" value="{{ $featuredProduct->minimum_purchase_qty }}">
+                                                    <input type="hidden" name="price" value="{{ discounted_price($featuredProduct) }}">
+                                                    <input type="hidden" name="discount" value="{{ $featuredProduct->discount }}">
+                                                    <input type="hidden" name="discountType" value="{{ $featuredProduct->discount_type }}">
+                                                    <input type="hidden" name="thumbnail_image" value="{{ asset($featuredProduct->thumbnail_img) }}">
+
+                                                    <!-- Hidden button value field -->
+                                                    <input type="hidden" name="button" id="submitButtonValue{{ $featuredProduct->id }}">
+                                                </form>
+                                                <button type="button"
+                                                        onclick="addToCart({{ $featuredProduct->id }})"
+                                                        data-product-id="{{ $featuredProduct->id }}"
+                                                        data-product-title="{{ $featuredProduct->name }}"
+                                                        data-product-price="{{ discounted_price($featuredProduct) }}"
+                                                        data-product-image="{{ asset($featuredProduct->thumbnail_img) }}"
+                                                        class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
+                                                        style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                                     <i class="fas fa-shopping-cart"></i>
                                                 </button>
-                                            </form>
 
-                                            <a href=""
-                                               class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
-                                                এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
-                                    <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
-                                </svg>
-                                            </a>
+                                                <a href="javascript:void(0);"
+                                                   onclick="
+                                                       document.getElementById('submitButtonValue{{ $featuredProduct->id }}').value = '2';
+                                                       document.getElementById('buyNowForm{{ $featuredProduct->id }}').submit();
+                                                       "
+                                                   class="btn-primary text-white d-flex justify-content-center align-items-center flex-fill"
+                                                   style="height: 38px;">
+                                                    এখনই কিনুন
+                                                    <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="ms-2"
+                                                         viewBox="0 0 16 16">
+                                                        <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z" />
+                                                    </svg>
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
 {{--                                    <div class="ratings-container">--}}
@@ -555,75 +596,6 @@
             </div><!-- End .products -->
         </div><!-- End .container -->
     </div><!-- End .page-content -->
-
-    <!-- Cart Modal -->
-     <div id="cartModal" style="display: none; position: fixed; z-index: 1000; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; background: white; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); border-radius: 8px; text-align: center; padding: 20px; animation: fadeIn 0.5s;">
-        <span id="closeModal" style="position: absolute; top: 10px; right: 15px; font-size: 22px; cursor: pointer;">&times;</span>
-        <div class="text-center text-success">
-            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">
-                <g id="Group_23957" data-name="Group 23957" transform="translate(-6269 7766)">
-                    <path id="Path_28713" data-name="Path 28713" d="M12.8,32.8a3.6,3.6,0,1,0,3.6,3.6A3.584,3.584,0,0,0,12.8,32.8ZM2,4V7.6H5.6l6.471,13.653-2.43,4.41A3.659,3.659,0,0,0,9.2,27.4,3.6,3.6,0,0,0,12.8,31H34.4V27.4H13.565a.446.446,0,0,1-.45-.45.428.428,0,0,1,.054-.216L14.78,23.8H28.19a3.612,3.612,0,0,0,3.15-1.854l6.435-11.682A1.74,1.74,0,0,0,38,9.4a1.8,1.8,0,0,0-1.8-1.8H9.587L7.877,4H2ZM30.8,32.8a3.6,3.6,0,1,0,3.6,3.6A3.584,3.584,0,0,0,30.8,32.8Z" transform="translate(6267 -7770)" fill="#85b567"></path>
-                    <rect id="Rectangle_18068" data-name="Rectangle 18068" width="9" height="3" rx="1.5" transform="translate(6284.343 -7757.879) rotate(45)" fill="#fff"></rect>
-                    <rect id="Rectangle_18069" data-name="Rectangle 18069" width="3" height="13" rx="1.5" transform="translate(6295.657 -7760.707) rotate(45)" fill="#fff"></rect>
-                </g>
-            </svg>
-            <h3 class="fs-28 text-success">আইটেমটি আপনার কার্টে যোগ করা হয়েছে!</h3>
-        </div>
-        <!-- Product Info -->
-        <div style="display: flex; gap: 10px; margin-top: 15px; justify-content: center;">
-            <!-- Product Image -->
-            <img id="modalImage" src="" alt="Product Image" style="width: 100px; height: auto; border: 1px solid #ddd; border-radius: 4px;">
-            <!-- Product Details -->
-            <div style="text-align: left;">
-                <p id="modalProductTitle" style="font-weight: bold; font-size: 16px; margin: 0;"></p>
-                <p style="color: red; font-size: 18px; margin: 5px 0;">৳<span id="modalProductPrice"></span></p>
-            </div>
-        </div>
-        <!-- Buttons -->
-        <div style="margin-top: 20px; display: flex; justify-content: space-around;">
-            <button id="closeModalBack" style="background-color: green; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">শপিং এ ফিরে যান</button>
-            <button onclick="location.href='{{route('checkout')}}'" style="background-color: red; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;">এখনই কিনুন</button>
-        </div>
-    </div>
-
-    <!-- Overlay -->
-    <div id="modalOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 999; animation: fadeIn 0.5s;"></div>
-
-    <!-- CSS for fadeIn animation and mobile responsiveness -->
-    <style>
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @media screen and (max-width: 768px) {
-            #cartModal {
-                width: 98% !important; /* Adjust width for mobile devices */
-                padding: 15px;
-            }
-
-            #modalImage {
-                width: 80px; /* Resize image for smaller screens */
-            }
-
-            #modalProductTitle {
-                font-size: 14px; /* Adjust font size for smaller screens */
-            }
-
-            #modalProductPrice {
-                font-size: 16px; /* Adjust font size for smaller screens */
-            }
-
-            .button-container {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .button-container button {
-                width: 100%; /* Make buttons full width on small screens */
-            }
-        }
-    </style>
 
 
 
@@ -992,9 +964,9 @@
                     document.getElementById('modalProductTitle').textContent = '{{ $product->name }}'; // Product title
                     document.getElementById('modalProductPrice').textContent = document.getElementById('productPrice').value; // Product price
 
-                    // Show modal and overlay
-                    document.getElementById('cartModal').style.display = 'block';
-                    document.getElementById('modalOverlay').style.display = 'block';
+                    // Show Bootstrap modal
+                    const myModal = new bootstrap.Modal(document.getElementById('cartModal'));
+                    myModal.show();
 
                     // Reset form
                     resetForm();

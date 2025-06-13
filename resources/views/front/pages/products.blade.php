@@ -161,6 +161,11 @@
                                                             <input type="hidden" name="button" id="submitButtonValue{{ $product->id }}">
                                                         </form>
                                                         <button type="button"
+                                                                onclick="addToCart({{ $product->id }})"
+                                                                data-product-id="{{ $product->id }}"
+                                                                data-product-title="{{ $product->name }}"
+                                                                data-product-price="{{ discounted_price($product) }}"
+                                                                data-product-image="{{ asset($product->thumbnail_img) }}"
                                                                 class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
                                                                 style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                                             <i class="fas fa-shopping-cart"></i>
@@ -182,7 +187,7 @@
                                                     @endif
                                                 </div>
                                             </div>
-{{--                                            <div class="ratings-container">--}}
+                                            {{--                                            <div class="ratings-container">--}}
 {{--                                                <div class="ratings">--}}
 {{--                                                    <div class="ratings-val" style="width: 20%;"></div><!-- End .ratings-val -->--}}
 {{--                                                </div><!-- End .ratings -->--}}

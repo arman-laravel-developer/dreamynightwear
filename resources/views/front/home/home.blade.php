@@ -212,6 +212,11 @@
                                         <input type="hidden" name="button" id="submitButtonValue{{ $featuredProduct->id }}">
                                     </form>
                                     <button type="button"
+                                            onclick="addToCart({{ $featuredProduct->id }})"
+                                            data-product-id="{{ $featuredProduct->id }}"
+                                            data-product-title="{{ $featuredProduct->name }}"
+                                            data-product-price="{{ discounted_price($featuredProduct) }}"
+                                            data-product-image="{{ asset($featuredProduct->thumbnail_img) }}"
                                             class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
                                             style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                         <i class="fas fa-shopping-cart"></i>
@@ -320,6 +325,11 @@
                                                     <input type="hidden" name="button" id="submitButtonValue{{ $categoryWiseProduct->id }}">
                                                 </form>
                                                 <button type="button"
+                                                        onclick="addToCart({{ $categoryWiseProduct->id }})"
+                                                        data-product-id="{{ $categoryWiseProduct->id }}"
+                                                        data-product-title="{{ $categoryWiseProduct->name }}"
+                                                        data-product-price="{{ discounted_price($categoryWiseProduct) }}"
+                                                        data-product-image="{{ asset($categoryWiseProduct->thumbnail_img) }}"
                                                         class="btn-outline-primary d-flex align-items-center justify-content-center me-2"
                                                         style="width: 42px; height: 38px; border: 0px; background-color: whitesmoke;">
                                                     <i class="fas fa-shopping-cart"></i>
