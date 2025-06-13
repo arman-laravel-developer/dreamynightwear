@@ -902,7 +902,7 @@
                 sizeError.style.display = 'block';
 
                 // Scroll to the size section smoothly
-                const sizeContainer = document.querySelector('.btn-size')?.closest('.product-size-section');
+                const sizeContainer = document.querySelector('.size-buttons');
                 if (sizeContainer) {
                     sizeContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
                 }
