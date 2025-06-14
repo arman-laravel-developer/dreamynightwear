@@ -330,99 +330,94 @@
                             <div class="widget-about-info">
                                 <div class="row">
                                     <div class="col-sm-6 col-md-4">
-                                        <span class="widget-about-title text-light">Got Question? Call us 24/7</span>
+                                        <span class="widget-about-title text-light">প্রশ্ন আছে? ২৪/৭ কল করুন</span>
                                         <a href="tel:{{$generalSettingView->mobile}}" style="font-size: 85%;">{{$generalSettingView->mobile}}</a>
-                                    </div><!-- End .col-sm-6 -->
+                                    </div>
                                     <div class="col-sm-6 col-md-8">
-                                        <span class="widget-about-title text-light">Payment Method</span>
+                                        <span class="widget-about-title text-light">পেমেন্ট পদ্ধতি</span>
                                         <figure class="footer-payments">
                                             <img src="{{asset($generalSettingView->payment_method_image)}}" alt="Payment methods" style="width: 60%; margin-left: -5%;">
-                                        </figure><!-- End .footer-payments -->
-                                    </div><!-- End .col-sm-6 -->
-                                </div><!-- End .row -->
-                            </div><!-- End .widget-about-info -->
-                        </div><!-- End .widget about-widget -->
-                    </div><!-- End .col-sm-12 col-lg-4 -->
+                                        </figure>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="col-sm-4 col-lg-2">
                         <div class="widget">
-                            <h4 class="widget-title">Useful links</h4><!-- End .widget-title -->
-
+                            <h4 class="widget-title">প্রয়োজনীয় লিংক</h4>
                             <ul class="widget-list">
-                                <li><a href="{{route('about.us')}}">About {{$generalSettingView->site_name}}</a></li>
-                                <li><a href="#">How to shop on {{$generalSettingView->site_name}}</a></li>
-                                <li><a href="{{route('contact.us')}}">Contact us</a></li>
+                                <li><a href="{{route('about.us')}}">{{$generalSettingView->site_name}} সম্পর্কে</a></li>
+                                <li><a href="#">কিভাবে কেনাকাটা করবেন</a></li>
+                                <li><a href="{{route('contact.us')}}">যোগাযোগ করুন</a></li>
                                 @if(Session::get('customer_id'))
-                                    <li><a href="{{route('customer.dashboard')}}">Dashboard</a></li>
+                                    <li><a href="{{route('customer.dashboard')}}">ড্যাশবোর্ড</a></li>
                                 @else
-                                    <li><a href="#signin-modal" data-toggle="modal">Login</a></li>
+                                    <li><a href="#signin-modal" data-toggle="modal">লগইন করুন</a></li>
                                 @endif
-                            </ul><!-- End .widget-list -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-4 col-lg-2 -->
+                            </ul>
+                        </div>
+                    </div>
 
                     <div class="col-sm-4 col-lg-2">
                         <div class="widget">
-                            <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
-
+                            <h4 class="widget-title">গ্রাহক সেবা</h4>
                             <ul class="widget-list">
-                                <li><a href="{{route('condition.page')}}">Terms and conditions</a></li>
-                                <li><a href="{{route('privacy.page')}}">Privacy Policy</a></li>
-                                <li><a href="{{route('return.view')}}">Return & Refund Policies</a></li>
-                            </ul><!-- End .widget-list -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-4 col-lg-2 -->
+                                <li><a href="{{route('condition.page')}}">শর্তাবলী</a></li>
+                                <li><a href="{{route('privacy.page')}}">প্রাইভেসি নীতিমালা</a></li>
+                                <li><a href="{{route('return.view')}}">রিটার্ন ও রিফান্ড নীতিমালা</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <div class="col-sm-4 col-lg-2">
                         <div class="widget">
-                            <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
-
+                            <h4 class="widget-title">আমার অ্যাকাউন্ট</h4>
                             <ul class="widget-list">
                                 @if(Session::get('customer_id'))
-                                    <li><a href="{{route('customer.dashboard')}}">Dashboard</a></li>
+                                    <li><a href="{{route('customer.dashboard')}}">ড্যাশবোর্ড</a></li>
                                 @else
-                                    <li><a href="#signin-modal" data-toggle="modal">Sign In</a></li>
+                                    <li><a href="#signin-modal" data-toggle="modal">সাইন ইন</a></li>
                                 @endif
-                                <li><a href="{{route('cart.index')}}">View Cart</a></li>
-{{--                                <li><a href="#">My Wishlist</a></li>--}}
-                                <li><a href="{{route('track.order')}}">Track My Order</a></li>
-                                <li><a href="{{route('contact.us')}}">Help</a></li>
-                            </ul><!-- End .widget-list -->
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-4 col-lg-2 -->
+                                <li><a href="{{route('cart.index')}}">কার্ট দেখুন</a></li>
+                                <li><a href="{{route('track.order')}}">অর্ডার ট্র্যাক করুন</a></li>
+                                <li><a href="{{route('contact.us')}}">সাহায্য</a></li>
+                            </ul>
+                        </div>
+                    </div>
 
                     <div class="col-sm-6 col-lg-2">
                         <div class="widget widget-newsletter">
-                            <h4 class="widget-title">Sign up to newsletter</h4><!-- End .widget-title -->
-
+                            <h4 class="widget-title">নিউজলেটারে সাবস্ক্রাইব করুন</h4>
                             <form action="#">
                                 <div class="input-group">
-                                    <input type="email" class="form-control" placeholder="Enter your Email Address" aria-label="Email Adress" required>
+                                    <input type="email" class="form-control" placeholder="আপনার ইমেইল লিখুন" aria-label="Email Address" required>
                                     <div class="input-group-append">
                                         <button class="btn btn-dark" type="submit"><i class="icon-long-arrow-right"></i></button>
-                                    </div><!-- .End .input-group-append -->
-                                </div><!-- .End .input-group -->
+                                    </div>
+                                </div>
                             </form>
-                        </div><!-- End .widget -->
-                    </div><!-- End .col-sm-6 col-lg-2 -->
-                </div><!-- End .row -->
-            </div><!-- End .container-fluid -->
-        </div><!-- End .footer-middle -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
         <div class="footer-bottom">
             <div class="container-fluid">
-                <p class="footer-copyright">Copyright © {{date('Y')}} {{$generalSettingView->site_name}}. All Rights Reserved.&nbsp;Design And Develop By <a href="https://armanalibd.com" target="_blank"><b>Md Arman Ali</b></a></p><!-- End .footer-copyright -->
+                <p class="footer-copyright">কপিরাইট © {{date('Y')}} {{$generalSettingView->site_name}}. সর্বস্বত্ব সংরক্ষিত। ডিজাইন ও ডেভেলপ করেছেন <a href="https://armanalibd.com" target="_blank"><b>Md Arman Ali</b></a></p>
 
                 <div class="social-icons social-icons-color">
-                    <span class="social-label">Social Media</span>
+                    <span class="social-label">সামাজিক মাধ্যম</span>
                     <a href="{{$generalSettingView->facebook_url}}" class="social-icon social-facebook" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
                     <a href="{{$generalSettingView->twitter_url}}" class="social-icon social-twitter" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
                     <a href="{{$generalSettingView->instagram_url}}" class="social-icon social-instagram" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
                     <a href="{{$generalSettingView->youtube_url}}" class="social-icon social-youtube" title="Youtube" target="_blank"><i class="icon-youtube"></i></a>
-{{--                    <a href="{{$generalSettingView->pinterest_url}}" class="social-icon social-pinterest" title="Pinterest" target="_blank"><i class="icon-pinterest"></i></a>--}}
-                </div><!-- End .soial-icons -->
-            </div><!-- End .container-fluid -->
-        </div><!-- End .footer-bottom -->
+                </div>
+            </div>
+        </div>
     </footer><!-- End .footer -->
 </div><!-- End .page-wrapper -->
 @if(!Route::is('product.show'))
