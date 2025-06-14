@@ -3,326 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invoice</title>
+    <title>{{route('home')}}-{{$order->order_code}}-Invoice</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
-        }
-
-        .invoice-box {
-            width: 190mm; /* Set width to fit A4 size with some margins */
-            background-color: #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
-            margin: auto;
-            page-break-inside: avoid; /* Prevent page breaks inside the invoice box */
-        }
-
-        .invoice-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .invoice-header img {
-            width: 150px; /* Adjusted for a smaller size */
-            display: inline-block;
-        }
-
-        .invoice-header .details {
-            text-align: right;
-            font-size: 80%;
-            line-height: 1.2;
-            color: #555;
-        }
-
-        .invoice-header .details p {
-            margin: 2px 0;
-        }
-
-        h1 {
-            text-align: center;
-            font-family: 'Times New Roman', Times, serif;
+            font-family:'Roboto Light', sans-serif;
+            font-size: 0.875rem;
             font-weight: normal;
-            margin: 20px 0;
-            font-size: 24px; /* Adjusted font size for better fit */
-            letter-spacing: 1px;
         }
-
-        .address-section {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+        .invoice-box {
+            background-color: #fff;
         }
-
-        .address-section .from-address {
-            text-align: left; /* Align the text to the left for the "From" address */
-        }
-
-        .address-section .to-address {
-            text-align: right; /* Align the text to the right for the "To" address */
-        }
-
-        .from-address p, .to-address p {
-            font-size: 14px;
-            color: #555;
-            margin: 2px 0;
-        }
-
-        .invoice-table {
+        .invoice-box table {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-
-        .invoice-table th,
-        .invoice-table td {
-            padding: 8px;
-            text-align: center;
-            font-size: 12px; /* Smaller font size for table content */
-            border: 1px solid #ddd;
-        }
-
-        .invoice-table th {
-            background-color: #f5eadc;
-            font-weight: bold;
-        }
-
-        .invoice-summary {
-            margin-top: 20px;
-            float: right;
-            width: 200px; /* Reduced width to fit better */
-            text-align: right;
-        }
-
-        .invoice-summary p {
-            margin: 5px 0;
-            font-size: 14px;
-        }
-
-        .invoice-summary .total,
-        .invoice-summary .grand-total {
-            font-weight: bold;
-        }
-
-        .total-in-words {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 14px;
-            color: #555;
-            width: 100%;
-            font-weight: bold;
-        }
-
-        .signature {
-            margin-top: 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .signature .sig-block {
-            font-size: 14px;
-        }
-
-        .signature .sig-block .line {
-            width: 200px;
-            border-top: 1px solid #333;
-            margin: 10px 0;
-        }
-
-        .footer {
-            margin-top: 50px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            font-size: 12px;
-            color: #555;
-            bottom: 0;
-            left: 0;
-            position: fixed;
-        }
-
-        .footer p {
-            margin: 5px 0;
-        }
-
-        .custom-table {
-            width: 100%;
-            margin: 20px 0;
-            font-size: 80%;
-            line-height: 0;
-        }
-
-        .custom-table td {
-            padding: 0px;
-        }
-
-        .custom-table th {
-            padding: 10px;
-        }
-
-        .left-align {
+            line-height: 24px;
             text-align: left;
+            border-collapse: collapse;
+        }
+        .invoice-box table td {
+            padding: 2px;
+            vertical-align: top;
+        }
+        .invoice-box table tr.information table td {
+            padding-bottom: 30px;
+            line-height: 20px;
+            width: 50%;
+        }
+        .invoice-box table tr.heading td {
+            background: #f2f2f2;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            text-align: left;
+            font-size: 12px;
+        }
+        .invoice-box table tr.item td {
+            border-bottom: 1px solid #eee;
+            text-align: left;
+            /* Add specific widths */
+        }
+        .invoice-box table tr.item td:nth-child(1) {
+            width: 5%; /* Adjust based on your design */
+        }
+
+        .invoice-box table tr.item td:nth-child(2) {
             width: 50%;
         }
 
-        .right-align {
-            text-align: right;
-            width: 50%;
+        .invoice-box table tr.item td:nth-child(3) {
+            width: 15%;
         }
 
-        .custom-table p {
-            margin: 0;
-            line-height: 1.5;
+        .invoice-box table tr.item td:nth-child(4) {
+            width: 10%;
         }
 
-        .custom-table strong {
-            color: #333;
+        .invoice-box table tr.item td:nth-child(5) {
+            width: 10%;
         }
 
+        .invoice-box table tr.item td:nth-child(6) {
+            width: 10%;
+            text-align: right; /* Right align for total column */
+        }
+        .invoice-box table tr.total td:nth-child(5) {
+            font-weight: bold;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .logo span {
+            color: red;
+        }
+        .footer {
+            position: absolute;
+            bottom: 3%;
+            text-align: left;
+        }
+        .policy {
+            font-size: 10px;
+            color: #555;
+            text-align: left;
+            margin-top: 20px;
+            background: #f2f2f2;
+            padding: 10px;
+            width: 90%;
+        }
+        .text-right {
+            text-align: right!important;
+        }
+        .text-left {
+            text-align: left!important;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .signature-line {
+            border-top: 1px solid #000;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .signature-table td {
+            width: 33.33%; /* Each cell takes up one-third of the table's width */
+        }
+
+        .signature p {
+            margin-top: 10px; /* Space between the line and text */
+            margin-bottom: 0;
+            font-size: 10px;
+        }
 
     </style>
 </head>
 <body>
 <div class="invoice-box">
-    <div class="invoice-header">
-        <img src="{{$imageSrc}}" alt="{{$generalSettingView->site_name}}">
-        <div class="details">
-            <p>Date: {{$order->created_at->format('d/m/Y')}}</p>
-            <p>Invoice# {{$order->order_code}}</p>
-            <p>Payment Status: {{ucfirst($order->payment_status)}}</p>
-            <p>Website: {{Env('APP_URL')}}</p>
-        </div>
+    <div>
+        <img src="{{$imageSrc}}" alt="" style="width: 25%;">
     </div>
-
-    <h1>INVOICE</h1>
-
-    <table class="custom-table">
-        <tbody>
-        <tr>
-            <td class="left-align"><p><strong>From:</strong></p></td>
-            <td class="right-align"><p><strong>To:</strong> {{$order->name}}</p></td>
+    <div class="text-center">
+        <h2><strong>INVOICE</strong></h2>
+    </div>
+    <table>
+        <tr class="information">
+            <td colspan="6">
+                <table>
+                    <tr>
+                        <td>
+                            <strong>From:</strong><br>
+                            {{route('home')}}<br>
+                            Address: {{$generalSettingView->address}}<br>
+                            Email: {{$generalSettingView->email}}<br>
+                            Mobile: {{$generalSettingView->mobile}}<br>
+                        </td>
+                        <td class="text-right">
+                            <strong>Bill To:</strong><br>
+                            {{$order->name}}<br>
+                            Address: {{$order->address}}<br>
+                            @if($order->email != null)
+                                Email: {{$order->email}}<br>
+                            @endif
+                            Mobile: {{$order->mobile}}<br>
+                            Order ID: #{{$order->order_code}}<br>
+                            Order Date: {{$order->created_at->format('d-m-Y')}}<br>
+                            Payment Method: {{$order->payment_method == 'cod' ? 'Cash On Delivery' : ucfirst($order->payment_method)}}<br>
+                            {{--                            Payment Status: {{$order->payment_status == 'un_paid' ? 'Un-Paid' : ucfirst($order->payment_status)}}<br>--}}
+                            @if($order->order_note !=null)
+                                Note: {{$order->order_note}}
+                            @endif
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
-        <tr>
-            <td class="left-align"><p><strong>{{$generalSettingView->site_name}}</strong></p></td>
-            <td class="right-align"><p><strong>Address:</strong> {{$order->address}}</p></td>
+        <tr class="heading">
+            <td>S.N</td>
+            <td>Product Name</td>
+            <td>Variant</td>
+            <td>QTY</td>
+            <td>Unit Price</td>
+            <td style="text-align: right;">Total</td>
         </tr>
-        <tr>
-            <td class="left-align"><p><strong>Address:</strong>{{$generalSettingView->address}}</p></td>
-            <td class="right-align"><p><strong>Contact Number:</strong> {{$order->mobile}}</p></td>
-        </tr>
-        <tr>
-            <td class="left-align"><p><strong>Contact Number:</strong> {{$generalSettingView->mobile}}</p></td>
-            <td class="right-align"><p><strong>Email:</strong> {{$order->email}}</p></td>
-        </tr>
-        <tr>
-            <td class="left-align"><p><strong>Email:</strong> {{$generalSettingView->email}}</p></td>
-            <td class="right-align"><p><strong>Payment Method:</strong> {{ucfirst($order->payment_method)}}</p></td>
-        </tr>
-        </tbody>
-    </table>
-
-
-    <table class="invoice-table">
-        <tr>
-            <th>DESCRIPTION</th>
-            <th>PRICE</th>
-            <th>VARIANT</th>
-            <th>QTY.</th>
-            <th style="text-align: right;">AMOUNT</th>
-        </tr>
-        @php
-            $totalWithoutDiscount = 0;
-            $totalDiscount = 0;
-        @endphp
         @foreach($order->orderDetails as $orderDetail)
-            @php
-                $product = \App\Models\Product::find($orderDetail->product_id);
-                if ($orderDetail->discount_type == 2) {
-                    $newDiscount = ($orderDetail->price * ($orderDetail->discount / 100));
-                } else {
-                    $newDiscount = $orderDetail->discount;
-                }
-                $totalPrice = $orderDetail->price+$newDiscount;
-                $totalWithoutDiscount +=  $totalPrice * $orderDetail->qty;
-                $totalDiscount += $newDiscount * $orderDetail->qty;
-            @endphp
-            <tr>
-                <td>{{ $orderDetail->product->name }}</td>
+            <tr class="item">
+                <td>{{$loop->iteration}}</td>
                 <td>
-                    @if($orderDetail->discount > 0)
-                        <del style="color: red">Tk. {{ number_format($orderDetail->price+$newDiscount, 2) }}</del><br>
-                    @endif
-                    Tk. {{ number_format($orderDetail->price, 2) }}
+                    {{$orderDetail->product->name}}
                 </td>
                 <td>
-                    @php
-                        $sizeName = $orderDetail->size->name ?? null;
-                        $colorName = $orderDetail->color->name ?? null;
-                    @endphp
-                    @if($sizeName || $colorName)
-                        @if($sizeName) {{ $sizeName }} @endif
-                        @if($sizeName && $colorName) / @endif
-                        @if($colorName) {{ $colorName }} @endif
+                    @if($orderDetail->variant_id != null)
+                        <span style="font-size: 80%">{{$orderDetail->variant->variant}}</span>
                     @else
-                        N/A
+                        <span style="font-size: 80%">N/A</span>
                     @endif
                 </td>
-                <td>{{ $orderDetail->qty }}</td>
-                <td style="text-align: right;">
-                    @if($orderDetail->discount > 0)
-                        <del style="color: red">Tk. {{ number_format($totalPrice * $orderDetail->qty, 2) }}</del><br>
-                    @endif
-                    Tk. {{ number_format($orderDetail->price * $orderDetail->qty, 2) }}
-                </td>
+                <td>{{$orderDetail->qty}}</td>
+                <td>&#2547; {{number_format($orderDetail->price,0)}}</td>
+                <td>&#2547; {{number_format($orderDetail->price * $orderDetail->qty,2)}}</td>
             </tr>
         @endforeach
     </table>
-    @php
-        $grandTotalWithDiscount = $totalWithoutDiscount - $totalDiscount + $order->shipping_cost;
-    @endphp
-    <div class="invoice-summary">
-        <p><strong>Sub Total:</strong> Tk. {{ number_format($totalWithoutDiscount, 2) }}</p>
-        <p>Discount: Tk. {{ number_format($totalDiscount, 2) }}</p>
-        @if($order->shipping_cost > 0)
-            <p>Shipping cost: Tk. {{ number_format($order->shipping_cost, 2) }}</p>
-        @else
-            <p>Shipping cost: Shipping is free</p>
-        @endif
-        <hr>
-        <p class="grand-total"><strong>Grand Total:</strong> Tk. {{ number_format($grandTotalWithDiscount, 2) }}</p>
-    </div>
+    <div style="padding:0;">
+        <table class="text-right sm-padding small strong">
+            <thead>
+            <tr>
+                <th width="60%"></th>
+                <th width="40%"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="text-left">
+                    {{--                    @if($order->payment_status == 'paid')--}}
+                    {{--                        <div class="total-in-words" style="margin-top: 0 !important;">--}}
+                    {{--                            <img src="{{$paidImageSrc}}" alt="" style="height: 100px; opacity: 0.8;">--}}
+                    {{--                        </div>--}}
+                    {{--                    @else--}}
+                    {{--                        <div class="total-in-words" style="margin-top: 0 !important;">--}}
+                    {{--                            <img src="{{$unpaidImageSrc}}" alt="" style="height: 100px; opacity: 0.5;">--}}
+                    {{--                        </div>--}}
+                    {{--                    @endif--}}
+                </td>
+                @php
+                    $totalFinal = $order->grand_total + $order->shipping_cost - $order->discount;
+                @endphp
+                <td>
+                    <table class="text-left sm-padding small strong">
+                        <tbody>
+                        <tr>
+                            <td class="gry-color text-left">Sub Total</td>
+                            <td class="text-right">&#2547; {{number_format($order->grand_total,2)}}</td>
+                        </tr>
+                        <tr>
+                            <td class="gry-color text-left">Shipping Cost(+)</td>
 
-    <div class="signature">
-        <div class="sig-block">
-            <p>SIGNATURE</p>
-            <div class="line"></div>
-            <p>{{$generalSettingView->site_name}}</p>
-        </div>
-        <div class="sig-block"></div>
+                            <td class="text-right">
+                                <span>&#2547; {{number_format($order->shipping_cost,2)}}</span>
+                            </td>
+                        </tr>
+                        <tr class="border-bottom">
+                            <td class="gry-color text-left">Discount(-)</td>
+                            <td class="text-right">&#2547; {{number_format(round($order->discount),2)}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-left strong">Grand Total</th>
+                            <td class="text-right">&#2547; <strong>{{ number_format(round($totalFinal), 2) }}</strong></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
-
-    @if($order->payment_status == 'paid')
-        <div class="total-in-words" style="margin-top: 0 !important;">
-            <img src="{{$paidImageSrc}}" alt="{{$generalSettingView->site_name}}" style="height: 100px">
-        </div>
-    @else
-        <div class="total-in-words" style="margin-top: 0 !important;">
-            <img src="{{$unpaidImageSrc}}" alt="{{$generalSettingView->site_name}}" style="height: 100px">
-        </div>
-    @endif
-    <div class="total-in-words">
-        Total (in words): {{ convert_number($grandTotalWithDiscount) }} Taka Only
-    </div>
-
-    <!-- Footer Section -->
-    <div class="footer">
-        <p><strong>Terms and Conditions:</strong> Payment is due within 15 days. Please make checks payable to {{$generalSettingView->site_name}} Clothing Store.</p>
-        <p><strong>Return & Refund Policy:</strong> Returns are accepted within 3 days of purchase. Items must be in original condition with tags attached. Refunds will be issued to the original payment method within 7-10 business days of receiving the returned item.</p>
-        <p>If you have any questions, feel free to contact us at <strong>{{$generalSettingView->mobile}}</strong> or <strong>{{$generalSettingView->email}}</strong>.</p>
-    </div>
+</div>
+<p class="bold">In Words: {{ convert_number($totalFinal) }} Taka Only.</p>
+<div class="footer">
+    <table class="signature-table" style="width: 100%; margin-right: 10%; text-align: center;">
+        <tr>
+            <td>
+                <div class="signature-line"></div>
+                <p>Prepared by</p>
+            </td>
+            <td>
+                <div class="signature-line"></div>
+                <p>Verified by</p>
+            </td>
+            <td>
+                <div class="signature-line"></div>
+                <p>Authorised Signatory</p>
+            </td>
+        </tr>
+    </table>
+    <p class="policy">
+        <strong>Return Policy:</strong> Dispure delivered project will be entertained to return within 72 hours from the date of delivery.<br>
+        <strong>Declaration:</strong> We declare that this invoice shows the actual price of the goods described and the all particulars are true and currect.<br>
+        <strong>Note:</strong> Above Mentioned products would be entertained to return within 10 days from the date of delivery.
+    </p>
 </div>
 </body>
 </html>
