@@ -436,15 +436,15 @@
         <span class="mobile-menu-close"><i class="icon-close"></i></span>
 
         <form action="{{ route('product.search') }}" method="get" class="mobile-search">
-            <label for="mobile-search" class="sr-only">Search</label>
-            <input type="search" class="form-control" name="q" id="mobile-search" placeholder="Search in..." required>
+            <label for="mobile-search" class="sr-only">অনুসন্ধান করুন</label>
+            <input type="search" class="form-control" name="q" id="mobile-search" placeholder="এখানে অনুসন্ধান করুন..." required>
             <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
         </form>
 
         <nav class="mobile-nav">
             <ul class="mobile-menu">
                 <li class="active">
-                    <a href="{{route('home')}}">Home</a>
+                    <a href="{{route('home')}}">হোম</a>
                 </li>
                 @foreach($menuCategories as $menuCategory)
                 <li>
@@ -460,7 +460,7 @@
                 @endforeach
 
                 <li class="active">
-                    <a href="{{route('all.products')}}">Products</a>
+                    <a href="{{route('all.products')}}">সব পণ্য</a>
                 </li>
             </ul>
         </nav><!-- End .mobile-nav -->
@@ -492,10 +492,10 @@
                     <div class="form-tab">
                         <ul class="nav nav-pills nav-fill" role="tablist">
                             <li class="nav-item">
-                                <a class="nav-link @if(!$errors->has('email') && !$errors->has('mobile') && !$errors->has('password')) active @endif" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">Sign In</a>
+                                <a class="nav-link @if(!$errors->has('email') && !$errors->has('mobile') && !$errors->has('password')) active @endif" id="signin-tab" data-toggle="tab" href="#signin" role="tab" aria-controls="signin" aria-selected="true">লগইন করুন</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @if($errors->has('name') || $errors->has('email') || $errors->has('mobile') || $errors->has('password')) active @endif" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Register</a>
+                                <a class="nav-link @if($errors->has('name') || $errors->has('email') || $errors->has('mobile') || $errors->has('password')) active @endif" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">রেজিস্টার করুন</a>
                             </li>
                         </ul>
                         <div class="tab-content" id="tab-content-5">
@@ -503,27 +503,27 @@
                                 <form action="{{route('customer.login')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="singin-email">Mobile or email address *</label>
+                                        <label for="singin-email">মোবাইল অথবা ইমেইল ঠিকানা *</label>
                                         <input type="text" class="form-control" id="singin-email" name="email" required>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
-                                        <label for="singin-password">Password *</label>
+                                        <label for="singin-password">পাসওয়ার্ড  *</label>
                                         <input type="password" class="form-control" id="singin-password" name="password" required>
                                     </div><!-- End .form-group -->
 
                                     <div class="form-footer">
                                         <button type="submit" class="btn btn-outline-primary-2">
-                                            <span>LOG IN</span>
+                                            <span>লগইন করুন</span>
                                             <i class="icon-long-arrow-right"></i>
                                         </button>
 
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" id="signin-remember">
-                                            <label class="custom-control-label" for="signin-remember">Remember Me</label>
+                                            <label class="custom-control-label" for="signin-remember">মনে রাখুন</label>
                                         </div><!-- End .custom-checkbox -->
 
-                                        <a href="{{route('forget.password')}}" class="forgot-link">Forgot Your Password?</a>
+                                        <a href="{{route('forget.password')}}" class="forgot-link">পাসওয়ার্ড ভুলে গেছেন?</a>
                                     </div><!-- End .form-footer -->
                                 </form>
                             </div><!-- .End .tab-pane -->
@@ -531,7 +531,7 @@
                                 <form action="{{route('customer.store')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
-                                        <label for="register-name">Name *</label>
+                                        <label for="register-name">নাম  *</label>
                                         <input type="text" class="form-control @error('name') is-invalid @enderror" id="register-name" value="{{old('name')}}" name="name" required>
                                         @error('name')
                                         <span class="invalid-feedback" role="alert">
@@ -541,7 +541,7 @@
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
-                                        <label for="register-email">Your email address *</label>
+                                        <label for="register-email">আপনার ইমেইল ঠিকানা *</label>
                                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="register-email" value="{{old('email')}}" name="email" required>
                                         @error('email')
                                         <span class="invalid-feedback" role="alert">
@@ -551,7 +551,7 @@
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
-                                        <label for="register-mobile">Mobile *</label>
+                                        <label for="register-mobile">মোবাইল  *</label>
                                         <input type="tel" class="form-control @error('mobile') is-invalid @enderror" id="register-mobile" value="{{old('mobile')}}" name="mobile" required>
                                         @error('mobile')
                                         <span class="invalid-feedback" role="alert">
@@ -561,7 +561,7 @@
                                     </div><!-- End .form-group -->
 
                                     <div class="form-group">
-                                        <label for="register-password">Password *</label>
+                                        <label for="register-password">পাসওয়ার্ড  *</label>
                                         <input type="password" class="form-control @error('password') is-invalid @enderror" id="register-password" name="password" required>
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
@@ -572,13 +572,13 @@
 
                                     <div class="form-footer">
                                         <button type="submit" class="btn btn-outline-primary-2">
-                                            <span>SIGN UP</span>
+                                            <span>সাইন আপ করুন</span>
                                             <i class="icon-long-arrow-right"></i>
                                         </button>
 
                                         <div class="custom-control custom-checkbox">
                                             <input type="checkbox" class="custom-control-input" value="1" name="policy" id="register-policy" required>
-                                            <label class="custom-control-label" for="register-policy">I agree to the <a href="#">privacy policy</a> *</label>
+                                            <label class="custom-control-label" for="register-policy">আমি <a href="#">প্রাইভেসি পলিসি</a> তে সম্মত আছি *</label>
                                         </div><!-- End .custom-checkbox -->
                                     </div><!-- End .form-footer -->
                                 </form>
