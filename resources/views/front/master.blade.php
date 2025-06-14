@@ -158,17 +158,17 @@
                 <div class="header-right">
                     <ul class="top-menu">
                         <li>
-                            <a href="#">Links</a>
+                            <a href="#">লিংকসমূহ</a>
                             <ul>
-                                <li><a href="tel:{{$generalSettingView->mobile}}"><i class="icon-phone"></i>Call: {{$generalSettingView->mobile}}</a></li>
+                                <li><a href="tel:{{$generalSettingView->mobile}}"><i class="icon-phone"></i>কল করুন: {{$generalSettingView->mobile}}</a></li>
 {{--                                <li><a href="wishlist.html"><i class="icon-heart-o"></i>My Wishlist <span>(3)</span></a></li>--}}
-                                <li><a href="{{route('about.us')}}">About Us</a></li>
-                                <li><a href="{{route('contact.us')}}">Contact Us</a></li>
-                                <li><a href="{{route('all.products')}}">Products</a></li>
+                                <li><a href="{{route('about.us')}}">আমাদের সম্পর্কে</a></li>
+                                <li><a href="{{route('contact.us')}}">যোগাযোগ করুন</a></li>
+                                <li><a href="{{route('all.products')}}">পণ্যসমূহ</a></li>
                                 @if(Session::get('customer_id'))
-                                <li><a href="{{route('customer.dashboard')}}"><i class="icon-user"></i>Dashboard</a></li>
+                                <li><a href="{{route('customer.dashboard')}}"><i class="icon-user"></i>ড্যাশবোর্ড</a></li>
                                 @else
-                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>Login</a></li>
+                                <li><a href="#signin-modal" data-toggle="modal"><i class="icon-user"></i>লগইন</a></li>
                                 @endif
                             </ul>
                         </li>
@@ -181,7 +181,7 @@
             <div class="container-fluid">
                 <div class="header-left">
                     <button class="mobile-menu-toggler">
-                        <span class="sr-only">Toggle mobile menu</span>
+                        <span class="sr-only">মোবাইল মেনু চালু করুন</span>
                         <i class="icon-bars"></i>
                     </button>
 
@@ -193,7 +193,7 @@
                     <nav class="main-nav">
                         <ul class="menu sf-arrows">
                             <li class="megamenu-container active">
-                                <a href="{{route('home')}}" class="">Home</a>
+                                <a href="{{route('home')}}" class="">হোম</a>
                             </li>
                             @foreach($menuCategories as $menuCategory)
                             <li>
@@ -226,8 +226,8 @@
                         <a href="#" class="search-toggle" role="button"><i class="icon-search"></i></a>
                         <form action="{{ route('product.search') }}" method="get">
                             <div class="header-search-wrapper search-wrapper-wide">
-                                <label for="q" class="sr-only">Search</label>
-                                <input type="search" class="form-control" name="q" id="q" placeholder="Search product ..." autocomplete="off" required>
+                                <label for="q" class="sr-only">অনুসন্ধান</label>
+                                <input type="search" class="form-control" name="q" id="q" placeholder="পণ্য খুঁজুন..." autocomplete="off" required>
                                 <button class="btn btn-primary" type="submit"><i class="icon-search"></i></button>
                             </div><!-- End .header-search-wrapper -->
                             <!-- Suggestions list -->
@@ -295,15 +295,15 @@
 
                             <div class="dropdown-cart-bottom">
                                 <div class="dropdown-cart-total">
-                                    <span>Total</span>
+                                    <span>মোট</span>
                                     @php($total = Cart::getTotal())
                                     <span class="cart-total-price">&#2547;{{number_format($total)}}</span>
                                 </div>
 
                                 <div class="dropdown-cart-action">
-                                    <a href="{{route('cart.index')}}" class="btn btn-primary" style="margin-right: 2%">View Cart</a>
+                                    <a href="{{route('cart.index')}}" class="btn btn-primary" style="margin-right: 2%">কার্ট দেখুন</a>
                                     <a href="{{route('checkout')}}" class="btn btn-outline-primary-2">
-                                        <span>Checkout</span><i class="icon-long-arrow-right"></i>
+                                        <span>চেকআউট</span><i class="icon-long-arrow-right"></i>
                                     </a>
                                 </div>
                             </div>
