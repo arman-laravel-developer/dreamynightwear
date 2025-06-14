@@ -355,7 +355,7 @@
                                            target="_blank"
                                            class="btn-product"
                                            style="background-color: #565656; color: #ffffff; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
-                                            <i class="fa fa-phone"></i>  &nbsp; কল করুন &nbsp; {{$generalSettingView->mobile}}
+                                            কল করুন <span style="color: #f8a707"><i class="fa fa-phone"></i> &nbsp; {{$generalSettingView->mobile}}</span>
                                         </a>
                                     </div>
                                 </div>
