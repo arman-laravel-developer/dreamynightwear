@@ -193,7 +193,7 @@
                                     </a>
 
                                     <a href="{{route('product.show', ['id' => $featuredProduct->id, 'slug' => $featuredProduct->slug])}}"
-                                       class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
+                                       class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;color: white; background-color: #f89104;">
                                         <i class="fa fa-bolt"></i><span class="text-white">&nbsp;এখনই কিনুন</span>
                                     </a>
                                 @else
@@ -300,7 +300,7 @@
                                                 </a>
 
                                                 <a href="{{route('product.show', ['id' => $categoryWiseProduct->id, 'slug' => $categoryWiseProduct->slug])}}"
-                                                   class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
+                                                   class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;color: white; background-color: #f89104;">
                                                     <i class="fa fa-bolt"></i><span class="text-white">&nbsp;এখনই কিনুন</span>
                                                 </a>
                                             @else
