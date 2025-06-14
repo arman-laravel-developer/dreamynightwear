@@ -336,7 +336,7 @@
                                                 <div class="details-action-wrapper" style="gap: 5%">
                                                     <button type="button" id="addToCartBtn"  class="btn btn-sm" style="min-width: 0;height: 50px; color: white; background-color: #00b7c9"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
                                                     <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product" style="height: 50px; text-decoration: none; color: white; background-color: #f89104; border: none">
-                                                        <i class="fa fa-bolt"></i><span class="text-white">এখনই কিনুন</span></button>
+                                                        <i class="fa fa-bolt"></i><span class="text-white">&nbsp;এখনই কিনুন</span></button>
                                                 </div>
                                             @else
                                                 <div class="details-action-wrapper">
