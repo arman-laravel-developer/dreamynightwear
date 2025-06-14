@@ -560,8 +560,8 @@
 
                                                 <a href="javascript:void(0);"
                                                    onclick="
-                                                       document.getElementById('submitButtonValue{{ $category_product->id }}').value = '2';
-                                                       document.getElementById('buyNowForm{{ $category_product->id }}').submit();
+                                                       document.getElementById('submitButtonValue{{ $featuredProduct->id }}').value = '2';
+                                                       document.getElementById('buyNowForm{{ $featuredProduct->id }}').submit();
                                                        "
                                                    class="btn-primary text-white d-flex justify-content-center align-items-center flex-fill"
                                                    style="height: 38px;color: white; background-color: #f89104;">

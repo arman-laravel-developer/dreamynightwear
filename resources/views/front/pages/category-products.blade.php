@@ -106,9 +106,7 @@
 
                                                     <a href="{{route('product.show', ['id' => $category_product->id, 'slug' => $category_product->slug])}}"
                                                        class=" btn-primary text-white d-flex justify-content-center align-items-center flex-fill" style="height: 38px;">
-                                                        এখনই কিনুন <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="me-2" viewBox="0 0 16 16">
-                                                            <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z"/>
-                                                        </svg>
+                                                        <i class="fa fa-bolt"></i><span class="text-white">&nbsp;এখনই কিনুন</span>
                                                     </a>
                                                 @else
                                                     <form id="buyNowForm{{ $category_product->id }}" action="{{ route('cart.add') }}" method="POST">
@@ -140,12 +138,8 @@
                                                            document.getElementById('buyNowForm{{ $category_product->id }}').submit();
                                                            "
                                                        class="btn-primary text-white d-flex justify-content-center align-items-center flex-fill"
-                                                       style="height: 38px;">
-                                                        এখনই কিনুন
-                                                        <svg xmlns="http://www.w3.org/2000/svg" height="16" width="16" fill="currentColor" class="ms-2"
-                                                             viewBox="0 0 16 16">
-                                                            <path d="M7.667 0 1.5 9h5v7l6.5-10h-5z" />
-                                                        </svg>
+                                                       style="height: 38px;color: white; background-color: #f89104;">
+                                                        <i class="fa fa-bolt"></i><span class="text-white">&nbsp;এখনই কিনুন</span>
                                                     </a>
                                                 @endif
                                             </div>
