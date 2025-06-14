@@ -334,8 +334,8 @@
                                         <div id="inStock" style="display: block;">
                                             @if($product->stock != 0)
                                                 <div class="details-action-wrapper" style="gap: 5%">
-                                                    <button type="button" id="addToCartBtn"  class="btn btn-sm btn-success" style="min-width: 0;height: 50px"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
-                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product btn-danger" style="height: 50px; text-decoration: none">
+                                                    <button type="button" id="addToCartBtn"  class="btn btn-sm" style="min-width: 0;height: 50px; color: white; background-color: #00dec0"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
+                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product" style="height: 50px; text-decoration: none; color: white; background-color: #f8a707">
                                                         <i class="fa fa-bolt"></i><span class="text-white">এখনই কিনুন</span></button>
                                                 </div>
                                             @else
