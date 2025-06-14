@@ -334,8 +334,8 @@
                                         <div id="inStock" style="display: block;">
                                             @if($product->stock != 0)
                                                 <div class="details-action-wrapper" style="gap: 5%">
-                                                    <button type="button" id="addToCartBtn"  class="btn btn-sm" style="min-width: 0;height: 50px; color: white; background-color: #00dec0"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
-                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product" style="height: 50px; text-decoration: none; color: white; background-color: #f8a707">
+                                                    <button type="button" id="addToCartBtn"  class="btn btn-sm" style="min-width: 0;height: 50px; color: white; background-color: #00b7c9"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
+                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product" style="height: 50px; text-decoration: none; color: white; background-color: #f89104; border: none">
                                                         <i class="fa fa-bolt"></i><span class="text-white">এখনই কিনুন</span></button>
                                                 </div>
                                             @else
@@ -355,7 +355,7 @@
                                            target="_blank"
                                            class="btn-product"
                                            style="background-color: #565656; color: #ffffff; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
-                                            কল করুন <span style="color: #f8a707"><i class="fa fa-phone"></i> &nbsp; {{$generalSettingView->mobile}}</span>
+                                            কল করুন &nbsp; <span style="color: #f89104"><i class="fa fa-phone"></i> &nbsp; {{$generalSettingView->mobile}}</span>
                                         </a>
                                     </div>
                                 </div>
