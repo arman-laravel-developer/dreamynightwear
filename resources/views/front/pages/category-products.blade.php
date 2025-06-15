@@ -205,7 +205,7 @@
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
                             <label>ফিল্টার করুন:</label>
-                            <a href="#" class="sidebar-filter-clear">কিল্যার করুন</a>
+                            <a href="#" class="sidebar-filter-clear">ক্লিয়ার করুন</a>
                         </div><!-- End .widget widget-clean -->
 
                         @if(count($category->subCategories) > 0)
