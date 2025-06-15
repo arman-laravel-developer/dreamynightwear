@@ -315,7 +315,17 @@
                             <div class="details-filter-row details-row-size">
                                 <label for="qty">পরিমাণ:</label>
                                 <div class="product-details-quantity">
-                                    <input type="number" id="qty" class="form-control qtyValue" oninput="this.value = this.value.replace(/[^0-9]/g, '') || {{ $product->minimum_purchase_qty }};" value="{{$product->minimum_purchase_qty}}" min="{{$product->minimum_purchase_qty}}" max="{{$product->stock}}" step="1" data-decimals="0" required>
+                                    <input type="number"
+                                           id="qty"
+                                           class="form-control qtyValue"
+                                           oninput="this.value = this.value.replace(/[^0-9]/g, ''); if (this.value === '') this.value = {{ $product->minimum_purchase_qty }};"
+                                           value="{{ $product->minimum_purchase_qty }}"
+                                           min="{{ $product->minimum_purchase_qty }}"
+                                           max="{{ $product->stock }}"
+                                           step="1"
+                                           data-decimals="0"
+                                           inputmode="numeric"
+                                           required>
                                 </div><!-- End .product-details-quantity -->
 
                                 <!-- Message & WhatsApp button after Qty -->
