@@ -140,7 +140,7 @@
                                         @endif
                                         <td class="quantity-col">
                                             <div class="cart-product-quantity">
-                                                <input type="number" class="form-control quantity-input" oninput="this.value = this.value.replace(/[^0-9]/g, '') || {{ $cartProduct->minimum_purchase_qty }};" value="{{$cartProduct->quantity}}" max="{{$defult_stock}}" min="1" step="1" data-product-id="{{$cartProduct->id}}" data-row-total="#row-total-{{$cartProduct->id}}" required>
+                                                <input type="text" class="form-control quantity-input" oninput="this.value = this.value.replace(/[^0-9]/g, '') || {{ $cartProduct->minimum_purchase_qty }};" value="{{$cartProduct->quantity}}" max="{{$defult_stock}}" min="1" step="1" data-product-id="{{$cartProduct->id}}" data-row-total="#row-total-{{$cartProduct->id}}" required>
                                             </div><!-- End .cart-product-quantity -->
                                         </td>
                                         <td class="total-col" id="row-total-{{$cartProduct->id}}">&#2547; {{number_format($cartProduct->price * $cartProduct->quantity, 2)}}</td>
