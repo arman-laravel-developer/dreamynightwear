@@ -354,7 +354,7 @@
 
             <div class="text-center mt-2">
                 <a href="{{ route('category.product', ['id' => $categoryWiseHomeView->id ]) }}" style="font-size: 2rem">
-                    <span>Load more</span>
+                    <span>আরো প্রোডাক্ট দেখুন</span>
                     <i class="icon-long-arrow-right"></i>
                 </a>
             </div><!-- End .more-container -->
