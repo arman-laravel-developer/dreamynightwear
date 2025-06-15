@@ -169,12 +169,7 @@
                 tax : "",
                 shipping : "{{$order->shipping_cost}}",
                 coupon : "",
-                name: "{{$order->name}}",
-                email: "{{$order->email}}",
-                mobile: "{{$order->mobile}}",
-                detailed_address: "{{$order->address}}",
 {{--                city: "{{$order->district->name}}",--}}
-                alt_phone: "{{$order->alt_mobile}}",
                 items : [@foreach ($order->orderDetails as $orderDetail){
                     item_name : "{{$orderDetail->product->name}}",
                     item_id : "{{$orderDetail->product_id}}",
@@ -184,6 +179,15 @@
                     item_variant : "{{ $orderDetail->size_id ? $orderDetail->size->name : '' }}{{ $orderDetail->size_id && $orderDetail->color_id ? ' / ' : '' }}{{ $orderDetail->color_id ? $orderDetail->color->name : '' }}",
                     quantity : {{$orderDetail->qty}}
                 },@endforeach]
+            },
+            customer: {
+                shipping: {
+                    name: "{{$order->name}}",
+                    email: "{{$order->email}}",
+                    mobile: "{{$order->mobile}}",
+                    address: "{{$order->address}}",
+                    alt_phone: "{{$order->alt_mobile}}",
+                }
             }
         });
     </script>
