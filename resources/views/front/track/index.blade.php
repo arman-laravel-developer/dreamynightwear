@@ -1,7 +1,7 @@
 @extends('front.master')
 
 @section('title')
-{{$generalSettingView->site_name}} - Track My Order
+    {{$generalSettingView->site_name}} - অর্ডার ট্র্যাক করুন
 @endsection
 
 @section('body')
@@ -29,34 +29,36 @@
             margin-top: 20px;
         }
     </style>
+
     <div class="page-header text-center" style="background-image: url('{{asset('/')}}front/assets/images/page-header-bg.jpg')">
         <div class="container">
-            <h1 class="page-title">Track My Order</h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
+            <h1 class="page-title">অর্ডার ট্র্যাক করুন</h1>
+        </div>
+    </div>
+
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Track My Order</li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">হোম</a></li>
+                <li class="breadcrumb-item active" aria-current="page">অর্ডার ট্র্যাক করুন</li>
             </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+        </div>
+    </nav>
 
     <div class="page-content">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8" style="margin-right: -6%">
-                    <!-- Order Tracking Form -->
+                    <!-- অর্ডার ট্র্যাকিং ফর্ম -->
                     <div class="card">
                         <div class="card-body">
                             <form id="orderForm" action="{{route('show.track-result')}}" method="GET">
                                 <div class="form-group">
-                                    <label for="order-id">Order Code</label>
+                                    <label for="order-id">অর্ডার কোড</label>
                                     <input type="text" class="form-control" name="order_code" id="order-id" placeholder="xxxxxx-xxxxxx-xxxxx" maxlength="19">
-                                    <small id="error-message" style="color: red; display: none;">Order Code must be exactly 17 digits.</small>
+                                    <small id="error-message" style="color: red; display: none;">অর্ডার কোডটি অবশ্যই ১৭ সংখ্যার হতে হবে।</small>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block">Track Order</button>
+                                <button type="submit" class="btn btn-primary btn-block">ট্র্যাক করুন</button>
                             </form>
                         </div>
                     </div>
@@ -71,14 +73,12 @@
         const errorMessage = document.getElementById('error-message');
 
         orderInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+            let value = e.target.value.replace(/\D/g, ''); // শুধু সংখ্যাগুলি রাখুন
 
-            // Ensure the value doesn't exceed 17 numeric characters
             if (value.length > 17) {
                 value = value.slice(0, 17);
             }
 
-            // Insert hyphens after 6 and 12 numeric characters
             if (value.length > 6) {
                 value = value.replace(/(\d{6})(\d{1,6})/, '$1-$2');
             }
@@ -89,16 +89,14 @@
             e.target.value = value;
         });
 
-        // Form submission validation
         form.addEventListener('submit', function(e) {
-            const inputVal = orderInput.value.replace(/\D/g, ''); // Get numeric value only
+            const inputVal = orderInput.value.replace(/\D/g, '');
 
-            // Check if numeric value is exactly 17 digits
             if (inputVal.length !== 17) {
-                e.preventDefault(); // Prevent form submission
-                errorMessage.style.display = 'block'; // Show error message
+                e.preventDefault();
+                errorMessage.style.display = 'block';
             } else {
-                errorMessage.style.display = 'none'; // Hide error message if valid
+                errorMessage.style.display = 'none';
             }
         });
     </script>

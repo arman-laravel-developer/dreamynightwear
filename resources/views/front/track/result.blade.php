@@ -1,7 +1,7 @@
 @extends('front.master')
 
 @section('title')
-{{$generalSettingView->site_name}} - Track My Order
+    {{ $generalSettingView->site_name }} - আমার অর্ডার ট্র্যাক করুন
 @endsection
 
 @section('body')
@@ -12,6 +12,7 @@
         }
         .progress-bar {
             border-radius: 10px;
+            font-size: 1.2em;
         }
         .tracking-step {
             display: flex;
@@ -29,103 +30,105 @@
             margin-top: 20px;
         }
     </style>
-    <div class="page-header text-center" style="background-image: url('{{asset('/')}}front/assets/images/page-header-bg.jpg')">
+
+    <div class="page-header text-center" style="background-image: url('{{ asset('/') }}front/assets/images/page-header-bg.jpg')">
         <div class="container">
-            <h1 class="page-title">Track My Order</h1>
-        </div><!-- End .container -->
-    </div><!-- End .page-header -->
+            <h1 class="page-title">আমার অর্ডার ট্র্যাক করুন</h1>
+        </div>
+    </div>
+
     <nav aria-label="breadcrumb" class="breadcrumb-nav">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Track My Order</li>
+                <li class="breadcrumb-item"><a href="{{ route('home') }}">হোম</a></li>
+                <li class="breadcrumb-item active" aria-current="page">অর্ডার ট্র্যাক</li>
             </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+        </div>
+    </nav>
 
     <div class="page-content">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8" style="margin-right: -6%">
-                    <!-- Order Tracking Form -->
+                    <!-- অর্ডার ট্র্যাক ফর্ম -->
                     <div class="card">
                         <div class="card-body">
-                            <form id="orderForm" action="{{route('show.track-result')}}" method="GET">
+                            <form id="orderForm" action="{{ route('show.track-result') }}" method="GET">
                                 <div class="form-group">
-                                    <label for="order-id">Order Code</label>
-                                    <input type="text" class="form-control" name="order_code" id="order-id" value="{{$order_code}}" placeholder="xxxxxx-xxxxxx-xxxxx" maxlength="19">
-                                    <small id="error-message" style="color: red; display: none;">Order Code must be exactly 17 digits.</small>
+                                    <label for="order-id">অর্ডার কোড</label>
+                                    <input type="text" class="form-control" name="order_code" id="order-id" value="{{ $order_code }}" placeholder="উদাহরণ: ১২৩৪৫৬-১২৩৪৫৬-১২৩৪৫" maxlength="19">
+                                    <small id="error-message" style="color: red; display: none;">অর্ডার কোড অবশ্যই ১৭ সংখ্যার হতে হবে।</small>
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block">Track Order</button>
+                                <button type="submit" class="btn btn-primary btn-block">অর্ডার ট্র্যাক করুন</button>
                             </form>
                         </div>
                     </div>
-                    @if($order)
-                        <!-- Order Tracking Progress -->
+
+                @if($order)
+                    <!-- অর্ডার অগ্রগতি -->
                         <div class="card mt-5">
                             <div class="card-header" style="margin-top: 3%;">
-                                <h4>Order Progress</h4>
+                                <h4>অর্ডার অগ্রগতি</h4>
                             </div>
                             <div class="card-body">
-                                <!-- Progress Bar -->
                                 <div class="progress">
                                     @if($order->order_status == 'pending')
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 25%;font-size: 1.5em;">Pending</div>
+                                        <div class="progress-bar bg-success" style="width: 25%;">অপেক্ষমাণ</div>
                                     @elseif($order->order_status == 'proccessing')
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 50%;font-size: 1.5em;">Processing</div>
+                                        <div class="progress-bar bg-success" style="width: 50%;">প্রসেসিং</div>
                                     @elseif($order->order_status == 'shipped')
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 75%;font-size: 1.5em;">Shipped</div>
+                                        <div class="progress-bar bg-success" style="width: 75%;">রওনা হয়েছে</div>
                                     @elseif($order->order_status == 'delivered')
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" style="width: 100%;font-size: 1.5em;">Delivered</div>
+                                        <div class="progress-bar bg-success" style="width: 100%;">ডেলিভারি সম্পন্ন</div>
                                     @else
-                                        <div class="progress-bar progress-bar-striped progress-bar-animated bg-danger" style="width: 100%; font-size: 1.5em;">Canceled</div>
+                                        <div class="progress-bar bg-danger" style="width: 100%;">বাতিল</div>
                                     @endif
                                 </div>
 
-                                <!-- Tracking Steps -->
+                                <!-- ধাপে ধাপে ট্র্যাকিং -->
                                 <div class="tracking-step mt-4">
                                     <div>
                                         <span class="tracking-icon">&#128221;</span><br>
-                                        <small>Order Placed</small>
+                                        <small>অর্ডার হয়েছে</small>
                                     </div>
                                     <div>
                                         <span class="tracking-icon">&#128736;</span><br>
-                                        <small>Processing</small>
+                                        <small>প্রসেসিং</small>
                                     </div>
                                     <div>
                                         <span class="tracking-icon">&#128666;</span><br>
-                                        <small>Shipped</small>
+                                        <small>রওনা হয়েছে</small>
                                     </div>
                                     <div>
                                         <span class="tracking-icon">&#128230;</span><br>
-                                        <small>Delivered</small>
+                                        <small>ডেলিভারি</small>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Payment Status -->
+                        <!-- পেমেন্ট অবস্থা -->
                         <div class="card payment-card">
                             <div class="card-header" style="margin-top: 3%;">
-                                <h4>Payment Status</h4>
+                                <h4>পেমেন্ট স্ট্যাটাস</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <p><strong>Payment Method:</strong> {{\Illuminate\Support\Str::ucfirst($order->payment_method)}}</p>
-                                        <p><strong>Payment Status:</strong>
+                                        <p><strong>পেমেন্ট মাধ্যম:</strong> {{ \Illuminate\Support\Str::ucfirst($order->payment_method) }}</p>
+                                        <p><strong>পেমেন্ট স্ট্যাটাস:</strong>
                                             @if($order->payment_status == 'pending')
-                                                <span class="badge badge-danger">Pending</span>
+                                                <span class="badge badge-danger">অপেক্ষমাণ</span>
                                             @elseif($order->payment_status == 'paid')
-                                                <span class="badge badge-success">Paid</span>
+                                                <span class="badge badge-success">পরিশোধিত</span>
                                             @else
-                                                <span class="badge badge-danger">Unpaid</span>
+                                                <span class="badge badge-danger">অপরিশোধিত</span>
                                             @endif
                                         </p>
                                     </div>
                                     <div class="col-md-6">
-                                        <p><strong>Total Payable Amount:</strong> ৳ {{$order->grand_total+$order->shipping_cost}}</p>
-                                        <p><strong>Order Date:</strong> {{$order->created_at->format('d/m/Y')}}</p>
+                                        <p><strong>মোট পরিশোধযোগ্য:</strong> ৳ {{ $order->grand_total + $order->shipping_cost }}</p>
+                                        <p><strong>অর্ডারের তারিখ:</strong> {{ $order->created_at->format('d/m/Y') }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -133,7 +136,7 @@
                     @else
                         <div class="card mt-3">
                             <div class="card-body">
-                                <p class="text-center text-danger" style="font-size: 2em;">Order Not Found!</p>
+                                <p class="text-center text-danger" style="font-size: 1.8em;">দুঃখিত! অর্ডার পাওয়া যায়নি।</p>
                             </div>
                         </div>
                     @endif
@@ -142,20 +145,19 @@
         </div>
     </div>
 
+    <!-- স্ক্রিপ্ট -->
     <script>
         const orderInput = document.getElementById('order-id');
         const form = document.getElementById('orderForm');
         const errorMessage = document.getElementById('error-message');
 
         orderInput.addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+            let value = e.target.value.replace(/\D/g, '');
 
-            // Ensure the value doesn't exceed 17 numeric characters
             if (value.length > 17) {
                 value = value.slice(0, 17);
             }
 
-            // Insert hyphens after 6 and 12 numeric characters
             if (value.length > 6) {
                 value = value.replace(/(\d{6})(\d{1,6})/, '$1-$2');
             }
@@ -166,18 +168,15 @@
             e.target.value = value;
         });
 
-        // Form submission validation
         form.addEventListener('submit', function(e) {
-            const inputVal = orderInput.value.replace(/\D/g, ''); // Get numeric value only
+            const inputVal = orderInput.value.replace(/\D/g, '');
 
-            // Check if numeric value is exactly 17 digits
             if (inputVal.length !== 17) {
-                e.preventDefault(); // Prevent form submission
-                errorMessage.style.display = 'block'; // Show error message
+                e.preventDefault();
+                errorMessage.style.display = 'block';
             } else {
-                errorMessage.style.display = 'none'; // Hide error message if valid
+                errorMessage.style.display = 'none';
             }
         });
     </script>
-
 @endsection
