@@ -318,6 +318,24 @@
                                     <input type="number" id="qty" class="form-control qtyValue" value="{{$product->minimum_purchase_qty}}" min="{{$product->minimum_purchase_qty}}" max="{{$product->stock}}" step="1" data-decimals="0" required>
                                 </div><!-- End .product-details-quantity -->
 
+                                <!-- Message & WhatsApp button after Qty -->
+                                <div style="margin-top: 10px; background-color: #e6f7ff; border-left: 5px solid #00b7c9; padding: 10px; border-radius: 5px;">
+                                    <p style="margin: 0; font-weight: bold; color: #333;">
+                                        🔒 কোন প্রকার অগ্রিম পেমেন্ট ছাড়া অর্ডার কনফার্ম করুন
+                                    </p>
+                                    <p style="margin: 0; font-weight: bold; color: #333;">
+                                        ✅ কোয়ালিটি যাচাই করে পণ্য গ্রহণ করতে পারবেন
+                                    </p>
+                                </div>
+
+                                <!-- WhatsApp Contact Button -->
+                                <div class="mt-2" style="margin-top: 10px;">
+                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $generalSettingView->mobile) }}?text={{ urlencode('আমি এই পণ্যের বিস্তারিত জানতে চাই: ' . url()->current()) }}"
+                                       target="_blank"
+                                       style="display: inline-block; background-color: #25D366; color: white; padding: 10px 15px; border-radius: 5px; font-weight: bold; text-decoration: none;">
+                                        <i class="fa fa-whatsapp"></i> হোয়াটসঅ্যাপে মেসেজ দিন
+                                    </a>
+                                </div>
 
                                 <div class="product-details-action mobile-sticky-footer" style="margin-bottom: 0 !important; display: block">
                                     <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
