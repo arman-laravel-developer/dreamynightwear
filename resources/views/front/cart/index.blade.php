@@ -149,7 +149,7 @@
                                                        step="1"
                                                        data-product-id="{{$cartProduct->id}}"
                                                        data-row-total="#row-total-{{$cartProduct->id}}"
-                                                       required>
+                                                       required readonly>
                                             </div><!-- End .cart-product-quantity -->
                                         </td>
                                         <td class="total-col" id="row-total-{{$cartProduct->id}}">&#2547; {{number_format($cartProduct->price * $cartProduct->quantity, 2)}}</td>

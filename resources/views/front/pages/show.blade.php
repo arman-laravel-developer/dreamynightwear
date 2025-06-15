@@ -325,7 +325,7 @@
                                            step="1"
                                            data-decimals="0"
                                            inputmode="numeric"
-                                           required>
+                                           required readonly>
                                 </div><!-- End .product-details-quantity -->
 
                                 <!-- Message & WhatsApp button after Qty -->
