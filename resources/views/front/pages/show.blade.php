@@ -339,10 +339,11 @@
 
                                 <!-- WhatsApp Contact Button -->
                                 <div class="mt-2" style="margin-top: 10px;">
-                                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $generalSettingView->mobile) }}?text={{ urlencode('আমি এই পণ্যের বিস্তারিত জানতে চাই: ' . url()->current()) }}"
+                                    <a href="https://wa.me/{{$generalSettingView->pinterest_url}}?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
                                        target="_blank"
-                                       style="display: inline-block; background-color: #25D366; color: white; padding: 10px 15px; border-radius: 5px; font-weight: bold; text-decoration: none;">
-                                        <i class="fa fa-whatsapp"></i> হোয়াটসঅ্যাপে মেসেজ দিন
+                                       class="btn-product"
+                                       style="background-color: #25D366; color: white; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
+                                        <span style="color: white;">হোয়াটসঅ্যাপে অর্ডার করুন</span>&nbsp;<i class="fab fa-whatsapp"></i> &nbsp;<span style="color: white;">{{$generalSettingView->pinterest_url}}</span>
                                     </a>
                                 </div>
 
