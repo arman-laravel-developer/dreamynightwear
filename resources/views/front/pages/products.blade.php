@@ -26,21 +26,18 @@
                     <div class="toolbox">
                         <div class="toolbox-left">
                             <div class="toolbox-info">
-                                Showing
-                                <span>{{ $products->firstItem() }} - {{ $products->lastItem() }}</span>
-                                of
-                                <span>{{ $products->total() }}</span>
-                                Products
+                                মোট <span>{{ $products->total() }}</span> পণ্যের মধ্যে
+                                <span>{{ $products->firstItem() }} - {{ $products->lastItem() }}</span> টি দেখানো হচ্ছে
                             </div><!-- End .toolbox-info -->
                         </div><!-- End .toolbox-left -->
 
                         <div class="toolbox-right">
                             <div class="toolbox-sort">
-                                <label for="sortby">Sort by:</label>
+                                <label for="sortby">ফিল্টার করুন:</label>
                                 <div class="select-custom">
                                     <select name="sortby" id="sortby" class="form-control">
-                                        <option value="popularity" >Most Popular</option>
-                                        <option value="date" selected="selected">Date</option>
+                                        <option value="popularity">সবচেয়ে জনপ্রিয়</option>
+                                        <option value="date" selected="selected">তারিখ অনুযায়ী</option>
                                     </select>
                                 </div>
                             </div><!-- End .toolbox-sort -->
@@ -201,13 +198,13 @@
                             @if ($products->onFirstPage())
                                 <li class="page-item disabled">
                                     <a class="page-link page-link-prev" href="#" aria-label="Previous" tabindex="-1" aria-disabled="true">
-                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>পিছনে
                                     </a>
                                 </li>
                             @else
                                 <li class="page-item">
                                     <a class="page-link page-link-prev" href="{{ $products->previousPageUrl() }}" aria-label="Previous">
-                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>Prev
+                                        <span aria-hidden="true"><i class="icon-long-arrow-left"></i></span>পিছনে
                                     </a>
                                 </li>
                             @endif
@@ -222,19 +219,19 @@
                             @endforeach
 
                         <!-- Last Page Indicator -->
-                            <li class="page-item-total">of {{ $products->lastPage() }}</li>
+                            <li class="page-item-total">মধ্যে {{ $products->lastPage() }}</li>
 
                             <!-- Next Page Link -->
                             @if ($products->hasMorePages())
                                 <li class="page-item">
                                     <a class="page-link page-link-next" href="{{ $products->nextPageUrl() }}" aria-label="Next">
-                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                        সামনে <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
                                     </a>
                                 </li>
                             @else
                                 <li class="page-item disabled">
                                     <a class="page-link page-link-next" href="#" aria-label="Next" tabindex="-1" aria-disabled="true">
-                                        Next <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
+                                        সামনে <span aria-hidden="true"><i class="icon-long-arrow-right"></i></span>
                                     </a>
                                 </li>
                             @endif
@@ -244,14 +241,14 @@
                 <aside class="col-lg-3 order-lg-first">
                     <div class="sidebar sidebar-shop">
                         <div class="widget widget-clean">
-                            <label>Filters:</label>
-                            <a href="#" class="sidebar-filter-clear">Clean All</a>
+                            <label>ফিল্টার করুন:</label>
+                            <a href="#" class="sidebar-filter-clear">ক্লিয়ার করুন</a>
                         </div><!-- End .widget widget-clean -->
 
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-1" role="button" aria-expanded="true" aria-controls="widget-1">
-                                    Category
+                                    ক্যাটেগরি অনুযায়ী
                                 </a>
                             </h3><!-- End .widget-title -->
 
@@ -281,7 +278,7 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-2" role="button" aria-expanded="true" aria-controls="widget-2">
-                                    Size
+                                    সাইজ অনুযায়ী
                                 </a>
                             </h3><!-- End .widget-title -->
 
@@ -305,7 +302,7 @@
                         <div class="widget widget-collapsible">
                             <h3 class="widget-title">
                                 <a data-toggle="collapse" href="#widget-4" role="button" aria-expanded="true" aria-controls="widget-4">
-                                    Brand
+                                    ব্র্যান্ড অনুযায়ী
                                 </a>
                             </h3><!-- End .widget-title -->
 
