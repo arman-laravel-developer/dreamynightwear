@@ -142,7 +142,6 @@
                                             <div class="cart-product-quantity">
                                                 <input type="number"
                                                        class="form-control quantity-input"
-                                                       oninput="this.value = this.value.replace(/[^0-9]/g, ''); if(this.value === '') this.value = {{$cartProduct->minimum_purchase_qty}};"
                                                        value="{{$cartProduct->quantity}}"
                                                        max="{{$defult_stock}}"
                                                        min="1"

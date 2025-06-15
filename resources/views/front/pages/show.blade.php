@@ -318,7 +318,6 @@
                                     <input type="number"
                                            id="qty"
                                            class="form-control qtyValue"
-                                           oninput="this.value = this.value.replace(/[^0-9]/g, ''); if (this.value === '') this.value = {{ $product->minimum_purchase_qty }};"
                                            value="{{ $product->minimum_purchase_qty }}"
                                            min="{{ $product->minimum_purchase_qty }}"
                                            max="{{ $product->stock }}"
