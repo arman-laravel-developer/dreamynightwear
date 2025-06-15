@@ -107,7 +107,7 @@
     <nav aria-label="breadcrumb" class="breadcrumb-nav border-0 mb-0">
         <div class="container d-flex align-items-center">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">হোম</a></li>
                 <li class="breadcrumb-item"><a href="{{route('category.product', ['id' => $product->category_id])}}">{{$product->category->category_name}}</a></li>
                 <li class="breadcrumb-item active" aria-current="page">{{$product->name}}</li>
             </ol>
@@ -259,7 +259,7 @@
                             @if($product->is_variant == 1)
                                 @if($product->variants->where('color_id', '!=', null)->unique('color_id')->count() > 0)
                                     <div class="details-filter-row details-row-size" style="margin-bottom: 1%!important;">
-                                        <label>Color:</label>
+                                        <label>কালার সিলেক্ট করুন:</label>
                                         <div class="product-nav product-nav-thumbs">
                                             @foreach($product->variants->where('color_id', '!=', null)->unique('color_id') as $variant)
                                                 <a class="zoom-image btn-color {{ $loop->first ? '' : '' }}"
@@ -280,13 +280,13 @@
                                     </div><!-- End .details-filter-row -->
                                     <div class="details-filter-row details-row-size" style="margin-bottom: 0 !important;">
                                         <label></label>
-                                        <div id="colorError" class="error-message" style="color: red; display: none;">Please select a color.<i class="fa fa-arrow-up"></i> </div>
+                                        <div id="colorError" class="error-message" style="color: red; display: none;">দয়া করে কালার সিলেক্ট করুন.<i class="fa fa-arrow-up"></i> </div>
                                     </div>
                                 @endif
 
                                 @if($product->variants->where('size_id', '!=', null)->unique('size_id')->count() > 0)
                                 <div class="details-filter-row details-row-size" style="margin-bottom: 0 !important;">
-                                    <label>Size:</label>
+                                    <label>সাইজ সিলেক্ট করুন:</label>
                                     <div class="size-buttons">
                                         @foreach($product->variants->where('size_id', '!=', null)->unique('size_id') as $variant)
                                             <button
@@ -305,7 +305,7 @@
                                 </div>
                                 <div class="details-filter-row details-row-size">
                                     <label></label>
-                                    <div id="sizeError" class="error-message" style="color: red; display: none;">Please select a size.<i class="fa fa-arrow-up"></i> </div>
+                                    <div id="sizeError" class="error-message" style="color: red; display: none;">দয়া করে সাইজ সিলেক্ট করুন.<i class="fa fa-arrow-up"></i> </div>
                                 </div>
                                 @endif
                             @else
@@ -313,7 +313,7 @@
                             @endif
 
                             <div class="details-filter-row details-row-size">
-                                <label for="qty">Qty:</label>
+                                <label for="qty">পরিমাণ:</label>
                                 <div class="product-details-quantity">
                                     <input type="number" id="qty" class="form-control qtyValue" value="{{$product->minimum_purchase_qty}}" min="{{$product->minimum_purchase_qty}}" max="{{$product->stock}}" step="1" data-decimals="0" required>
                                 </div><!-- End .product-details-quantity -->
@@ -384,7 +384,7 @@
                             </div>
                             <div class="product-details-footer">
                                 <div class="product-cat">
-                                    <span>Category:</span>
+                                    <span>ক্যাটেগরি:</span>
                                     @if($product->category->parentCategory)
                                         <a href="{{route('category.product', ['id' => $product->category->parentCategory->id])}}">{{$product->category->parentCategory->category_name}}</a>,
                                         <a href="{{route('category.product', ['id' => $product->category->id])}}">{{$product->category->category_name}}</a>
@@ -394,7 +394,7 @@
                                 </div><!-- End .product-cat -->
 
                                 <div class="social-icons social-icons-sm">
-                                    <span class="social-label">Share:</span>
+                                    <span class="social-label">শেয়ার করুন:</span>
                                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ route('product.show', ['id' => $product->id, 'slug' => $product->slug]) }}" class="social-icon" title="Facebook" target="_blank"><i class="icon-facebook-f"></i></a>
                                     <a href="https://twitter.com/intent/tweet?url={{ route('product.show', ['id' => $product->id, 'slug' => $product->slug]) }}&text={{ urlencode($product->name) }}" class="social-icon" title="Twitter" target="_blank"><i class="icon-twitter"></i></a>
                                     <a href="https://www.linkedin.com/shareArticle?url={{ route('product.show', ['id' => $product->id, 'slug' => $product->slug]) }}" class="social-icon" title="Instagram" target="_blank"><i class="icon-instagram"></i></a>
@@ -415,7 +415,7 @@
                 </div><!-- End .row -->
             </div><!-- End .product-details-top -->
 
-            <h2 class="title text-center mb-4">Releted Products</h2><!-- End .title text-center -->
+            <h2 class="title text-center mb-4">রিলেটেড প্রোডাক্ট</h2><!-- End .title text-center -->
             <div class="products mb-3">
                 <div class="row justify-content-center">
                     @foreach($relatedProducts as $category_product)
@@ -508,7 +508,7 @@
                 </div><!-- End .row -->
             </div><!-- End .products -->
 
-            <h2 class="title text-center mb-4">You May Also Like</h2><!-- End .title text-center -->
+            <h2 class="title text-center mb-4">আপনার পছন্দের প্রোডাক্ট</h2><!-- End .title text-center -->
             <div class="products mb-3">
                 <div class="row justify-content-center">
                     @foreach($featuredProducts as $featuredProduct)
