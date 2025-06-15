@@ -1,7 +1,7 @@
 @extends('front.master')
 
 @section('title')
-{{$generalSettingView->site_name}} - Checkout Page
+{{$generalSettingView->site_name}} - চেকআউট
 @endsection
 
 @section('body')
@@ -10,15 +10,16 @@
 {{--            <h1 class="page-title">Checkout<span>Shop</span></h1>--}}
 {{--        </div><!-- End .container -->--}}
 {{--    </div><!-- End .page-header -->--}}
-    <nav aria-label="breadcrumb" class="breadcrumb-nav bg-gray">
-        <div class="container">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Shop</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
-            </ol>
-        </div><!-- End .container -->
-    </nav><!-- End .breadcrumb-nav -->
+<nav aria-label="breadcrumb" class="breadcrumb-nav bg-gray">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{route('home')}}">হোম</a></li>
+            <li class="breadcrumb-item"><a href="#">শপ</a></li>
+            <li class="breadcrumb-item active" aria-current="page">চেকআউট</li>
+        </ol>
+    </div><!-- End .container -->
+</nav><!-- End .breadcrumb-nav -->
+
 
 <style>
     .form-section, .order-summary {
@@ -138,7 +139,7 @@
                                     <input type="hidden" name="shipping_cost" value="0">
                                 @endif
 {{--                                <div id="responseMessage" style="display: none; color: green; margin-top: 10px;"></div>--}}
-                                <button type="submit" class="btn btn-success w-100">অর্ডার প্লেস করুন</button>
+                                <button type="submit" class="btn btn-success w-100">অর্ডার কনফার্ম করুন</button>
                             </form>
                         </div>
                     </div>
