@@ -1,20 +1,20 @@
 @extends('front.master')
 
 @section('title')
-{{$generalSettingView->site_name}} - All Products
+{{$generalSettingView->site_name}} - সকল প্রোডাক্ট
 @endsection
 
 @section('body')
     <div class="page-header text-center" style="background-image: url('{{asset('/')}}front/assets/images/page-header-bg.jpg')">
         <div class="container">
-            <h1 class="page-title">All Products</h1>
+            <h1 class="page-title">সকল প্রোডাক্ট</h1>
         </div><!-- End .container -->
     </div><!-- End .page-header -->
     <nav aria-label="breadcrumb" class="breadcrumb-nav mb-2">
         <div class="container">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
-                <li class="breadcrumb-item active" aria-current="page">All Products</li>
+                <li class="breadcrumb-item"><a href="{{route('home')}}">হোম</a></li>
+                <li class="breadcrumb-item active" aria-current="page">সকল প্রোডাক্ট</li>
             </ol>
         </div><!-- End .container -->
     </nav><!-- End .breadcrumb-nav -->
