@@ -45,7 +45,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label class="col-2 col-form-label">Image<br> <small>(2880 X 750)</small></label>
+                                    <label class="col-2 col-form-label">Image<br> <small>(1200 X 400)</small></label>
                                     <div class="col-10">
                                         <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="exampleInputPassword1">
                                         <img src="{{asset($slider->image)}}" alt="" style="height: 100px">
