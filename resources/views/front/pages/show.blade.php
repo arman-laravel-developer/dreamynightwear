@@ -328,19 +328,17 @@
                                 </div><!-- End .product-details-quantity -->
 
                                 <!-- Message & WhatsApp button after Qty -->
-                                <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;700&display=swap" rel="stylesheet">
-
-                                <div style="margin-top: 10px; background-color: #e6f7ff; border-left: 5px solid #00b7c9; padding: 10px; border-radius: 5px; font-family: 'Hind Siliguri', sans-serif; font-size: 20px; font-weight: 700; color: #333;">
-                                    <p style="margin: 0;">
+                                <div style="margin-top: 10px; background-color: #e6f7ff; font-family: 'Hind Siliguri', sans-serif; border-left: 5px solid #00b7c9; padding: 10px; border-radius: 5px;">
+                                    <p style="margin: 0; font-weight: bold; color: #333;">
                                         🔰 কোন প্রকার অগ্রিম পেমেন্ট ছাড়া অর্ডার কনফার্ম করুন
                                     </p>
-                                    <p style="margin: 0;">
+                                    <p style="margin: 0; font-weight: bold; color: #333;">
                                         🔰 কোয়ালিটি যাচাই করে পণ্য গ্রহণ করতে পারবেন
                                     </p>
                                 </div>
 
                                 <!-- WhatsApp Contact Button -->
-                                <div class="mt-2 mb-3" style="margin-top: 10px;">
+                                <div class="mt-2" style="margin-top: 10px;">
                                     <a href="https://wa.me/{{$generalSettingView->pinterest_url}}?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
                                        target="_blank"
                                        class="btn-product"
