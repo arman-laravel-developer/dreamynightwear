@@ -25,7 +25,7 @@ class SliderController extends Controller
 
         // Create an Intervention Image instance
         $img = \Intervention\Image\Facades\Image::make($image->getRealPath());
-        $img->resize(1000, 600);
+        $img->resize(1200, 400);
         $img->save($imageUrl);
         return $imageUrl;
     }
@@ -48,8 +48,8 @@ class SliderController extends Controller
         }
         $slider->image = $this->getImageUrl($request);
         $slider->save();
-        Alert::success('Slider Add Successfully');
-        return redirect()->back();
+
+        return redirect()->back()->with('success', 'Slider Add Successfully');
     }
     public function manage()
     {
@@ -86,8 +86,8 @@ class SliderController extends Controller
         }
         $slider->image = $imageUrl;
         $slider->save();
-        Alert::success('Slider Update Successfully');
-        return redirect()->route('slider.manage');
+
+        return redirect()->route('slider.manage')->with('success', 'Slider Update Successfully');
     }
     public function delete($id)
     {
@@ -97,7 +97,7 @@ class SliderController extends Controller
             unlink($slider->image);
         }
         $slider->delete();
-        Alert::success('Slider Delete Successfully');
-        return redirect()->back();
+
+        return redirect()->back()->with('success', 'Slider Delete Successfully');
     }
 }

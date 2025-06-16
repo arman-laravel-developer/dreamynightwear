@@ -57,6 +57,30 @@
     </li>
     @endif
 
+    @if ($userType == 1 || !empty(array_filter(['slider.add', 'slider.manage'], fn($route) => in_array($route, $roleRoutes))))
+        <li class="side-nav-item">
+            <a data-bs-toggle="collapse" href="#sidebarSlider" aria-expanded="false" aria-controls="sidebarSlider" class="side-nav-link">
+                <i class="uil-sliders-v"></i>
+                <span> Slider </span>
+                <span class="menu-arrow"></span>
+            </a>
+            <div class="collapse" id="sidebarSlider">
+                <ul class="side-nav-second-level">
+                    @if ($userType == 1 || in_array('slider.add', $roleRoutes))
+                        <li>
+                            <a href="{{ route('slider.add') }}">Add Slider</a>
+                        </li>
+                    @endif
+                    @if ($userType == 1 || in_array('slider.manage', $roleRoutes))
+                        <li>
+                            <a href="{{ route('slider.manage') }}">Manage Slider</a>
+                        </li>
+                    @endif
+                </ul>
+            </div>
+        </li>
+    @endif
+
     @if ($userType == 1 || !empty(array_filter(['product.add', 'product.manage', 'category.manage','brand.add', 'color.add', 'size.add'], fn($route) => in_array($route, $roleRoutes))))
     <li class="side-nav-item">
         <a data-bs-toggle="collapse" href="#sidebarCategory" aria-expanded="false" aria-controls="sidebarEmail"

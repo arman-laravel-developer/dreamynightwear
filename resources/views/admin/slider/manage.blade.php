@@ -37,7 +37,7 @@
                                 <thead>
                                 <tr>
                                     <th>S.N</th>
-                                    <th>Title</th>
+                                    <th>Url</th>
                                     <th>Image</th>
                                     <th>Status</th>
                                     <th>Action</th>

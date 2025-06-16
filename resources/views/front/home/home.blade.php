@@ -60,79 +60,118 @@
 {{--            transition: opacity 0.3s ease;--}}
 {{--        }--}}
 {{--    </style>--}}
-    <div class="container-fluid">
-        <div class="row">
-            @foreach($homeCategories as $homeCategory)
-                <div class="{{ count($homeCategories) == 1 ? 'col-lg-12' : 'col-lg-6' }}">
+<div class="container-fluid">
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            @foreach($sliders as $slider)
+                <div class="swiper-slide">
                     <div class="banner banner-big banner-overlay">
-                        <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}">
-                            @if($homeCategory->image)
-                                <img src="{{ asset($homeCategory->image) }}" alt="Banner">
+                        <a href="{{$slider->title}}">
+                            @if($slider->image)
+                                <img src="{{ asset($slider->image) }}" alt="{{$slider->title}}">
                             @else
-                                <img src="https://placehold.co/1200x400" alt="Banner">
+                                <img src="{{ asset('/') }}front/fake.webp" alt="Banner">
                             @endif
                         </a>
 
-                        {{-- <div class="banner-content banner-content-center">
-                            <h3 class="banner-subtitle text-white">
-                                <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}">New Collection</a>
-                            </h3><!-- End .banner-subtitle -->
-                            <h2 class="banner-title text-white">
-                                <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}">{{ $homeCategory->category_name }}</a>
-                            </h2><!-- End .banner-title -->
-                            <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}" class="btn btn-primary" style="text-decoration: none">
-                                <span>Shop now</span>
-                            </a>
-                        </div><!-- End .banner-content --> --}}
-                    </div><!-- End .banner -->
-                </div><!-- End .col -->
+                        {{--                            <div class="banner-content banner-content-center">--}}
+                        {{--                                <h3 class="banner-subtitle text-white">--}}
+                        {{--                                    <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}">New Collection</a>--}}
+                        {{--                                </h3>--}}
+                        {{--                                <h2 class="banner-title text-white">--}}
+                        {{--                                    <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}">{{ $homeCategory->category_name }}</a>--}}
+                        {{--                                </h2>--}}
+                        {{--                                <a href="{{ route('category.product', ['id' => $homeCategory->id]) }}" class="btn btn-primary" style="text-decoration: none">--}}
+                        {{--                                    <span>Shop now</span>--}}
+                        {{--                                </a>--}}
+                        {{--                            </div>--}}
+                    </div>
+                </div>
             @endforeach
-        </div><!-- End .row -->
+        </div>
 
-        {{--        <div class="row justify-content-center">--}}
-{{--            <div class="col-md-6 col-lg-4">--}}
-{{--                <div class="banner banner-overlay text-white">--}}
-{{--                    <a href="#">--}}
-{{--                        <img src="{{asset('/')}}front/assets/images/demos/demo-7/banners/banner-3.jpg" alt="Banner">--}}
-{{--                    </a>--}}
+    {{--            <!-- Add Navigation Buttons -->--}}
+    {{--            <div class="swiper-button-next"></div>--}}
+    {{--            <div class="swiper-button-prev"></div>--}}
 
-{{--                    <div class="banner-content banner-content-right">--}}
-{{--                        <h4 class="banner-subtitle"><a href="#">Flip Flop</a></h4><!-- End .banner-subtitle -->--}}
-{{--                        <h3 class="banner-title"><a href="#">Summer<br>sale -70% off</a></h3><!-- End .banner-title -->--}}
-{{--                        <a href="#" class="btn underline btn-outline-white-3 banner-link">Shop Now</a>--}}
-{{--                    </div><!-- End .banner-content -->--}}
-{{--                </div><!-- End .banner -->--}}
-{{--            </div><!-- End .col-lg-4 -->--}}
+    <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+    </div>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+        var swiper = new Swiper(".mySwiper", {
+            loop: true,
+            slidesPerView: 1,
+            spaceBetween: 30,
+            autoplay: {
+                delay: 3000, // 3 seconds
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 1,
+                },
+                1200: {
+                    slidesPerView: 1,
+                }
+            }
+        });
+    </script>
 
-{{--            <div class="col-md-6 col-lg-4">--}}
-{{--                <div class="banner banner-overlay color-grey">--}}
-{{--                    <a href="#">--}}
-{{--                        <img src="{{asset('/')}}front/assets/images/demos/demo-7/banners/banner-4.jpg" alt="Banner">--}}
-{{--                    </a>--}}
 
-{{--                    <div class="banner-content">--}}
-{{--                        <h4 class="banner-subtitle"><a href="#">Accessories</a></h4><!-- End .banner-subtitle -->--}}
-{{--                        <h3 class="banner-title"><a href="#">2019 Winter<br>up to 50% off</a></h3><!-- End .banner-title -->--}}
-{{--                        <a href="#" class="btn underline banner-link">Shop Now</a>--}}
-{{--                    </div><!-- End .banner-content -->--}}
-{{--                </div><!-- End .banner -->--}}
-{{--            </div><!-- End .col-lg-4 -->--}}
+    {{--        <div class="row justify-content-center">--}}
+    {{--            <div class="col-md-6 col-lg-4">--}}
+    {{--                <div class="banner banner-overlay text-white">--}}
+    {{--                    <a href="#">--}}
+    {{--                        <img src="{{asset('/')}}front/assets/images/demos/demo-7/banners/banner-3.jpg" alt="Banner">--}}
+    {{--                    </a>--}}
 
-{{--            <div class="col-md-6 col-lg-4">--}}
-{{--                <div class="banner banner-overlay text-white">--}}
-{{--                    <a href="#">--}}
-{{--                        <img src="{{asset('/')}}front/assets/images/demos/demo-7/banners/banner-5.jpg" alt="Banner">--}}
-{{--                    </a>--}}
+    {{--                    <div class="banner-content banner-content-right">--}}
+    {{--                        <h4 class="banner-subtitle"><a href="#">Flip Flop</a></h4><!-- End .banner-subtitle -->--}}
+    {{--                        <h3 class="banner-title"><a href="#">Summer<br>sale -70% off</a></h3><!-- End .banner-title -->--}}
+    {{--                        <a href="#" class="btn underline btn-outline-white-3 banner-link">Shop Now</a>--}}
+    {{--                    </div><!-- End .banner-content -->--}}
+    {{--                </div><!-- End .banner -->--}}
+    {{--            </div><!-- End .col-lg-4 -->--}}
 
-{{--                    <div class="banner-content banner-content-right mr">--}}
-{{--                        <h4 class="banner-subtitle"><a href="#">New in</a></h4><!-- End .banner-subtitle -->--}}
-{{--                        <h3 class="banner-title"><a href="#">Women’s<br>sportswear</a></h3><!-- End .banner-title -->--}}
-{{--                        <a href="#" class="btn underline btn-outline-white-3 banner-link">Shop Now</a>--}}
-{{--                    </div><!-- End .banner-content -->--}}
-{{--                </div><!-- End .banner -->--}}
-{{--            </div><!-- End .col-lg-4 -->--}}
-{{--        </div><!-- End .row -->--}}
-    </div><!-- End .container-fluid -->
+    {{--            <div class="col-md-6 col-lg-4">--}}
+    {{--                <div class="banner banner-overlay color-grey">--}}
+    {{--                    <a href="#">--}}
+    {{--                        <img src="{{asset('/')}}front/assets/images/demos/demo-7/banners/banner-4.jpg" alt="Banner">--}}
+    {{--                    </a>--}}
+
+    {{--                    <div class="banner-content">--}}
+    {{--                        <h4 class="banner-subtitle"><a href="#">Accessories</a></h4><!-- End .banner-subtitle -->--}}
+    {{--                        <h3 class="banner-title"><a href="#">2019 Winter<br>up to 50% off</a></h3><!-- End .banner-title -->--}}
+    {{--                        <a href="#" class="btn underline banner-link">Shop Now</a>--}}
+    {{--                    </div><!-- End .banner-content -->--}}
+    {{--                </div><!-- End .banner -->--}}
+    {{--            </div><!-- End .col-lg-4 -->--}}
+
+    {{--            <div class="col-md-6 col-lg-4">--}}
+    {{--                <div class="banner banner-overlay text-white">--}}
+    {{--                    <a href="#">--}}
+    {{--                        <img src="{{asset('/')}}front/assets/images/demos/demo-7/banners/banner-5.jpg" alt="Banner">--}}
+    {{--                    </a>--}}
+
+    {{--                    <div class="banner-content banner-content-right mr">--}}
+    {{--                        <h4 class="banner-subtitle"><a href="#">New in</a></h4><!-- End .banner-subtitle -->--}}
+    {{--                        <h3 class="banner-title"><a href="#">Women’s<br>sportswear</a></h3><!-- End .banner-title -->--}}
+    {{--                        <a href="#" class="btn underline btn-outline-white-3 banner-link">Shop Now</a>--}}
+    {{--                    </div><!-- End .banner-content -->--}}
+    {{--                </div><!-- End .banner -->--}}
+    {{--            </div><!-- End .col-lg-4 -->--}}
+    {{--        </div><!-- End .row -->--}}
+</div><!-- End .container-fluid -->
 
     @if(count($featuredProducts) > 0)
     <div class="bg-light-2 pt-6 pb-3 featured">

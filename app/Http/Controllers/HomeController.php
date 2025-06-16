@@ -12,6 +12,7 @@ use App\Models\HomeCategory;
 use App\Models\Privacy;
 use App\Models\Product;
 use App\Models\Size;
+use App\Models\Slider;
 use App\Models\Union;
 use App\Models\Upazila;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class HomeController extends Controller
             ->orderByRaw(\DB::raw("FIELD(id, " . implode(',', $homeCats) . ")"))
             ->get();
 
+        $sliders = Slider::where('status', 1)->orderBy('id', 'desc')->get();
         $featuredProducts = Product::where('status', 1)->where('is_featured', 1)->latest()->take(6)->get();
         $newArrivals = Product::where('status', 1)->latest()->paginate(10);
         $homeCategories = Category::where('status', 1)->where('parent_id', 0)->where('display_status', 1)->latest()->take(2)->get();
@@ -38,7 +40,7 @@ class HomeController extends Controller
             return response()->json(['html' => $view]);
         }
 
-        return view('front.home.home', compact('featuredProducts', 'newArrivals', 'homeCategories', 'categoryWiseHomeViews'));
+        return view('front.home.home', compact('featuredProducts', 'newArrivals', 'homeCategories', 'categoryWiseHomeViews', 'sliders'));
     }
 
     public function category_product(Request $request, $id)

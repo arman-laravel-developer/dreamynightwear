@@ -36,16 +36,16 @@
                             <form action="{{route('slider.update', ['id' => $slider->id])}}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row mb-3">
-                                    <label for="inputEmail3" class="col-2 col-form-label">Title</label>
+                                    <label for="inputEmail3" class="col-2 col-form-label">Url</label>
                                     <div class="col-10">
-                                        <input type="text" value="{{$slider->title}}" class="form-control @error('title') is-invalid @enderror" name="title" id="inputEmail3" placeholder="Slider name"/>
+                                        <input type="text" value="{{$slider->title}}" class="form-control @error('title') is-invalid @enderror" name="title" id="inputEmail3" placeholder="Url"/>
                                         @error('title')
                                         <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                     </div>
                                 </div>
                                 <div class="row mb-3">
-                                    <label class="col-2 col-form-label">Image</label>
+                                    <label class="col-2 col-form-label">Image<br> <small>(2880 X 750)</small></label>
                                     <div class="col-10">
                                         <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="exampleInputPassword1">
                                         <img src="{{asset($slider->image)}}" alt="" style="height: 100px">
