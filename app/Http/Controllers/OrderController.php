@@ -531,4 +531,48 @@ class OrderController extends Controller
             });
         }
     }
+
+    public function fetchCourierReport($id)
+    {
+        $order = Order::findOrFail($id);
+
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer VkyhaRscczdppDNJTIU8PaiIv1tN5Af1oyFGY6wKAjxVPgHm8OpNJmWv1r3U',
+                'Accept' => 'application/json',
+            ])->post('https://bdcourier.com/api/courier-check', [
+                'phone' => $order->mobile,
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $courierData = $data['courierData'] ?? [];
+
+                $result = [
+                    'total_order' => $courierData['summary']['total_parcel'] ?? 0,
+                    'total_delivered' => $courierData['summary']['success_parcel'] ?? 0,
+                    'total_cancelled' => $courierData['summary']['cancelled_parcel'] ?? 0,
+                    'couriers' => []
+                ];
+
+                foreach ($courierData as $courier => $info) {
+                    if ($courier === 'summary') continue;
+
+                    $result['couriers'][$courier] = [
+                        'order' => $info['total_parcel'],
+                        'delivered' => $info['success_parcel'],
+                        'cancelled' => $info['cancelled_parcel'],
+                        'success_rate' => $info['success_ratio'],
+                    ];
+                }
+
+                return response()->json(['success' => true, 'data' => $result]);
+            }
+
+        } catch (\Exception $e) {
+            logger()->error("Courier API error: " . $e->getMessage());
+        }
+
+        return response()->json(['success' => false, 'message' => 'Failed to fetch data']);
+    }
 }

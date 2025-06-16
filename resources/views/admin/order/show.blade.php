@@ -210,8 +210,183 @@
 
                 </div> <!-- end card-body-->
             </div> <!-- end card -->
+            @php
+                $ordersByMobile = \App\Models\Order::where('mobile', $order->mobile)->get();
+            @endphp
+            <div class="card">
+                <!-- Clickable Header -->
+                <div class="card-header text-center" style="cursor:pointer;" data-bs-toggle="modal" data-bs-target="#courierModal" onclick="loadCourierReport({{ $order->id }})">
+                    <strong>Click for Courier Analyzing [ {{ $order->mobile }} ]</strong>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="courierModal" tabindex="-1" aria-labelledby="courierModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="courierModalLabel">Courier Report</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body" id="courierReportBody">
+                                <p>Loading...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Flexbox for inline Total Orders and Search Input -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <!-- Order Total Section -->
+                        <div class="order-total">
+                            <h5>Total Orders: <span class="badge bg-secondary">{{ count($ordersByMobile) }}</span></h5>
+                        </div>
+
+                        <!-- Search Input Section -->
+                        <div class="search-input">
+                            <input type="text" class="form-control" placeholder="Search Orders" id="orderSearch" onkeyup="searchOrder()">
+                        </div>
+                    </div>
+
+                    <!-- Order Table -->
+                    <div class="table-responsive">
+                        <table class="table table-striped text-center" id="orderTable">
+                            <thead>
+                            <tr>
+                                <th>OrderID</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($ordersByMobile as $orderDetail)
+                                <tr class="order-row">
+                                    <td>#{{ $orderDetail->order_code }}</td>
+                                    <td>&#2547; {{ number_format($orderDetail->grand_total, 2) }}/-</td>
+                                    <td>
+                                        @if($orderDetail->order_status == 'pending')
+                                            <span class="badge bg-danger">Pending</span>
+                                        @elseif($orderDetail->order_status == 'delivered')
+                                            <span class="badge bg-success">Delivered</span>
+                                        @elseif($orderDetail->order_status == 'cancel')
+                                            <span class="badge bg-danger">Canceled</span>
+                                        @elseif($orderDetail->order_status == 'shipped')
+                                            <span class="badge bg-primary">Shipped</span>
+                                        @elseif($orderDetail->order_status == 'in_completed')
+                                            <span class="badge bg-primary">In Completed</span>
+                                        @else
+                                            <span class="badge bg-warning">Processing</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div> <!-- end col-->
     </div>
     <!-- end row -->
+
+    <script>
+                function searchOrder() {
+                    let input = document.getElementById('orderSearch').value.toLowerCase();
+                    let rows = document.querySelectorAll('.order-row');
+
+                    rows.forEach(row => {
+                        let orderCode = row.cells[0].textContent.toLowerCase();
+                        let amount = row.cells[1].textContent.toLowerCase();
+                        let status = row.cells[2].textContent.toLowerCase();
+
+                        if (orderCode.includes(input) || amount.includes(input) || status.includes(input)) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                }
+            </script>
+            <script>
+        // Base URL for fetching courier report
+        const courierReportUrl = "{{ route('order.courier.report', ['id' => '__ID__']) }}";
+
+        // Function to load and render courier report
+        function loadCourierReport(orderId) {
+            const body = document.getElementById('courierReportBody');
+            body.innerHTML = '<p>Loading...</p>'; // Show loading message
+
+            const url = courierReportUrl.replace('__ID__', orderId);
+            console.log('Loading from:', url); // Debugging
+
+            fetch(url)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        // Calculate overall success rate
+                        let successRate = 0;
+                        if (data.data.total_order > 0) {
+                            successRate = (data.data.total_delivered / data.data.total_order) * 100;
+                        }
+
+                        // Generate Bangla comment based on success rate
+                        let comment = '';
+                        if (successRate < 50) {
+                            comment = '<li class="text-danger fw-bold">⚠️ এই মানুষকে অর্ডার পাঠানো রিস্কি</li>';
+                        } else if (successRate < 80) {
+                            comment = '<li class="text-warning fw-semibold">⛔ অর্ডার পাঠানো কিছুটা ঝুঁকি আছে</li>';
+                        } else {
+                            comment = '<li class="text-success">✅ অর্ডার পাঠানো নিরাপদ</li>';
+                        }
+
+                        // Build HTML content
+                        let html = `
+                        <ul>
+                            <li>Total Orders: ${data.data.total_order}</li>
+                            <li>Delivered: ${data.data.total_delivered}</li>
+                            <li>Cancelled: ${data.data.total_cancelled}</li>
+                            ${comment}
+                        </ul>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Courier</th>
+                                        <th>Orders</th>
+                                        <th>Delivered</th>
+                                        <th>Cancelled</th>
+                                        <th>Success Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody>`;
+
+                        // Loop through courier data and build table rows
+                        for (let courier in data.data.couriers) {
+                            let c = data.data.couriers[courier];
+                            html += `<tr>
+                            <td>${courier}</td>
+                            <td>${c.order}</td>
+                            <td>${c.delivered}</td>
+                            <td>${c.cancelled}</td>
+                            <td>${c.success_rate}%</td>
+                        </tr>`;
+                        }
+
+                        // Close table
+                        html += `</tbody></table></div>`;
+                        body.innerHTML = html;
+
+                    } else {
+                        body.innerHTML = '<p class="text-danger">Failed to fetch courier data.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    body.innerHTML = '<p class="text-danger">Error loading data.</p>';
+                });
+        }
+    </script>
 
 @endsection
