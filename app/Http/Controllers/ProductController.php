@@ -45,72 +45,70 @@ class ProductController extends Controller
     }
 
     public function getImageUrl($request)
-    {
-        $image = $request->file('thumbnail_img');
-        $imageName = time() . '-' . 'product-image' . '.' . $image->getClientOriginalExtension();
-        $directory = 'product-images/';
-        $imagePath = $directory . $imageName;
+{
+    $image = $request->file('thumbnail_img');
+    $imageName = time() . '-product-image.webp';
+    $directory = 'product-images/';
+    $imagePath = $directory . $imageName;
 
-        // Resize image without changing dimensions and reduce file size
-        $img = Image::make($image->getRealPath());
-        $img->resize(1080, 1080);
+    $img = Image::make($image->getRealPath())
+        ->resize(1080, 1080)
+        ->encode('webp', 80); // 80 = quality
 
-        // Save the resized image
-        $img->save($imagePath);
+    $img->save($imagePath);
 
-        return $imagePath;
-    }
+    return $imagePath;
+}
+
 
     public function getMetaImageUrl($request)
-    {
-        $image = $request->file('meta_image');
-        $imageName = time() . '-' . 'meta-image' . '.' . $image->getClientOriginalExtension();
-        $directory = 'meta-images/';
-        $imagePath = $directory . $imageName;
+{
+    $image = $request->file('meta_image');
+    $imageName = time() . '-meta-image.webp';
+    $directory = 'meta-images/';
+    $imagePath = $directory . $imageName;
 
-        // Resize image without changing dimensions and reduce file size
-        $img = Image::make($image->getRealPath());
-        $img->resize(1080, 1080);
+    $img = Image::make($image->getRealPath())
+        ->resize(1080, 1080)
+        ->encode('webp', 80);
 
-        // Save the resized image
-        $img->save($imagePath);
+    $img->save($imagePath);
 
-        return $imagePath;
-    }
+    return $imagePath;
+}
+
 
     public function getOtherImage($otherImage)
-    {
-        $uniqueId = uniqid();
-        $otherImageName = $uniqueId . '-' . 'product-other-images' . '.' . $otherImage->getClientOriginalExtension();
-        $directory = 'product-other-images/';
-        $imagePath = $directory . $otherImageName;
+{
+    $otherImageName = uniqid() . '-product-other-images.webp';
+    $directory = 'product-other-images/';
+    $imagePath = $directory . $otherImageName;
 
-        // Resize image without changing dimensions and reduce file size
-        $img = Image::make($otherImage->getRealPath());
-        $img->resize(1080, 1080);
+    $img = Image::make($otherImage->getRealPath())
+        ->resize(1080, 1080)
+        ->encode('webp', 80);
 
-        // Save the resized image
-        $img->save($imagePath);
+    $img->save($imagePath);
 
-        return $imagePath;
-    }
+    return $imagePath;
+}
+
 
     public function getVariantImage($variantImage)
-    {
-        $uniqueId = uniqid();
-        $variantImageName = $uniqueId . '-' . 'product-variant-images' . '.' . $variantImage->getClientOriginalExtension();
-        $directory = 'product-variant-images/';
-        $imagePath = $directory . $variantImageName;
+{
+    $variantImageName = uniqid() . '-product-variant-images.webp';
+    $directory = 'product-variant-images/';
+    $imagePath = $directory . $variantImageName;
 
-        // Resize image without changing dimensions and reduce file size
-        $img = Image::make($variantImage->getRealPath());
-        $img->resize(1080, 1080);
+    $img = Image::make($variantImage->getRealPath())
+        ->resize(1080, 1080)
+        ->encode('webp', 80);
 
-        // Save the resized image
-        $img->save($imagePath);
+    $img->save($imagePath);
 
-        return $imagePath;
-    }
+    return $imagePath;
+}
+
 
 
     public function create(Request $request)
