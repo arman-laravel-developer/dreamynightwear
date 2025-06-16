@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Session;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Mail;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
@@ -560,9 +561,9 @@ class OrderController extends Controller
 
                     $result['couriers'][$courier] = [
                         'order' => $info['total_parcel'] ?? 0,
-'delivered' => $info['success_parcel'] ?? 0,
-'cancelled' => $info['cancelled_parcel'] ?? 0,
-'success_rate' => $info['success_ratio'] ?? '0%',
+                        'delivered' => $info['success_parcel'] ?? 0,
+                        'cancelled' => $info['cancelled_parcel'] ?? 0,
+                        'success_rate' => $info['success_ratio'] ?? '0%',
                     ];
                 }
 

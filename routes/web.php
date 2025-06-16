@@ -35,7 +35,6 @@ function getRoleName($routeName)
 |
 */
 
-Route::get('/order/{id}/courier-reports', [OrderController::class, 'fetchCourierReport'])->name('order.courier.report');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy.page');
