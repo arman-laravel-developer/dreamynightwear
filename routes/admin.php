@@ -246,8 +246,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
             Route::get('/canceled-orders', [OrderController::class, 'canceled'])->name('order.canceled');
             Route::get('/order-show/{id}', [OrderController::class, 'show'])->name('order.show');
             Route::post('/order-delete/{id}', [OrderController::class, 'delete'])->name('order.delete');
+            Route::get('/order/{id}/courier-reports', [OrderController::class, 'fetchCourierReport'])->name('order.courier.report');
             Route::post('/order-payment-status-update', [OrderController::class, 'paymentStatusUpdate'])->name('order-payment-status.update');
-            Route::get('/order/{id}/courier-report', [OrderController::class, 'fetchCourierReport'])->name('order.courier.report');
             Route::post('/order-status-update', [OrderController::class, 'orderStatusUpdate'])->name('order-status.update');
         });
     });
