@@ -286,11 +286,8 @@
                     </div>
                 </div>
             </div>
-        </div> <!-- end col-->
-    </div>
-    <!-- end row -->
 
-    <script>
+            <script>
                 function searchOrder() {
                     let input = document.getElementById('orderSearch').value.toLowerCase();
                     let rows = document.querySelectorAll('.order-row');
@@ -308,6 +305,10 @@
                     });
                 }
             </script>
+        </div> <!-- end col-->
+    </div>
+    <!-- end row -->
+
             <script>
         // Base URL for fetching courier report
         const courierReportUrl = "{{ route('order.courier.report', ['id' => '__ID__']) }}";
