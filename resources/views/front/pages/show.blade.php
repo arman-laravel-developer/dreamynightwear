@@ -337,18 +337,17 @@
                                     </p>
                                 </div>
 
-                                <!-- WhatsApp Button -->
-                                <div style="margin-top: 15px;">
+                                <!-- WhatsApp Contact Button -->
+                                <div class="mt-2 mb-3" style="margin-top: 10px;">
                                     <a href="https://wa.me/{{$generalSettingView->pinterest_url}}?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
                                        target="_blank"
-                                       style="display: inline-flex; align-items: center; background-color: #25D366; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-family: 'Hind Siliguri', sans-serif; font-size: 1.1rem;">
-                                        <i class="fab fa-whatsapp" style="font-size: 1.2rem; margin-right: 8px;"></i>
-                                        হোয়াটসঅ্যাপে অর্ডার করুন
+                                       class="btn-product"
+                                       style="background-color: #25D366; color: white; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
+                                        <span style="color: white;">হোয়াটসঅ্যাপে অর্ডার করুন</span>&nbsp;<i class="fab fa-whatsapp"></i> &nbsp;<span style="color: white;">{{$generalSettingView->pinterest_url}}</span>
                                     </a>
                                 </div>
 
-                                <!-- Cart and Buy Buttons -->
-                                <div class="product-details-action mobile-sticky-footer" style="margin-top: 20px;">
+                                <div class="product-details-action mobile-sticky-footer" style="margin-bottom: 0 !important; display: block">
                                     <form id="addToCartForm" action="{{ route('cart.add') }}" method="POST">
                                         @csrf
                                         <input type="hidden" name="product_id" value="{{ $product->id }}">
@@ -362,36 +361,29 @@
 
                                         <div id="inStock" style="display: block;">
                                             @if($product->stock != 0)
-                                                <div class="d-flex flex-wrap gap-2 mt-3">
-                                                    <button type="button" id="addToCartBtn"
-                                                            class="btn btn-sm"
-                                                            style="flex: 1 1 48%; height: 50px; color: white; background-color: #00b7c9; font-size: 1rem;">
-                                                        <i class="fa fa-cart-plus"></i>&nbsp;কার্টে যোগ করুন
-                                                    </button>
-                                                    <button type="submit" id="addToBuyBtn" name="button" value="2"
-                                                            class="btn-product"
-                                                            style="flex: 1 1 48%; height: 50px; color: white; background-color: #f89104; font-size: 1rem; border: none;">
-                                                        <i class="fa fa-bolt"></i>&nbsp;এখনই কিনুন
-                                                    </button>
+                                                <div class="details-action-wrapper" style="gap: 5%">
+                                                    <button type="button" id="addToCartBtn"  class="btn btn-sm" style="min-width: 0;height: 50px; color: white; background-color: #00b7c9"><i class="fa fa-cart-plus"></i><span>কার্টে যোগ করুন</span></button>
+                                                    <button type="submit" id="addToBuyBtn" name="button" value="2" class="btn-product" style="height: 50px; text-decoration: none; color: white; background-color: #f89104; border: none">
+                                                        <i class="fa fa-bolt"></i><span class="text-white">&nbsp;এখনই কিনুন</span></button>
                                                 </div>
                                             @else
-                                                <div class="details-action-wrapper mt-3">
-                                                    <button type="button" disabled class="btn-product btn-danger btn-cart"
-                                                            style="line-height: 2; width: 100%; font-size: 1rem;">
-                                                        <span>স্টক শেষ</span>
-                                                    </button>
+                                                <div class="details-action-wrapper">
+                                                    <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>স্টক শেষ</span></button>
                                                 </div>
                                             @endif
                                         </div>
+                                        <div style="display: none;" id="outStock">
+                                            <div class="details-action-wrapper">
+                                                <button type="button" disabled class="btn-product btn-danger btn-cart" style="line-height: 2 !important; min-width: auto !important;"><span>স্টক শেষ</span></button>
+                                            </div>
+                                        </div>
                                     </form>
-
-                                    <!-- Call Button -->
-                                    <div class="details-action-wrapper d-flex justify-content-end mt-3">
+                                    <div class="details-action-wrapper d-flex justify-content-end" style="margin-top: 10px;">
                                         <a href="tel:{{$generalSettingView->mobile}}"
                                            target="_blank"
-                                           style="display: inline-flex; align-items: center; background-color: #565656; color: white; padding: 12px 20px; border-radius: 5px; text-decoration: none; font-family: 'Hind Siliguri', sans-serif; font-size: 1.1rem;">
-                                            <i class="fa fa-phone" style="margin-right: 8px;"></i>কল করুন:
-                                            <span style="margin-left: 5px; color: #f89104">{{$generalSettingView->mobile}}</span>
+                                           class="btn-product"
+                                           style="background-color: #565656; color: #ffffff; line-height: 2 !important; padding: 0.75rem 1.5rem; border-radius: 0.25rem;text-decoration: none">
+                                            কল করুন &nbsp; <span style="color: #f89104"><i class="fa fa-phone"></i> &nbsp; {{$generalSettingView->mobile}}</span>
                                         </a>
                                     </div>
                                 </div>
