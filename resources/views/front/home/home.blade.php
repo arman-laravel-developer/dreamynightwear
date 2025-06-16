@@ -69,7 +69,7 @@
                             @if($homeCategory->image)
                                 <img src="{{ asset($homeCategory->image) }}" alt="Banner">
                             @else
-                                <img src="https://placehold.co/1200x300" alt="Banner">
+                                <img src="https://placehold.co/1200x400" alt="Banner">
                             @endif
                         </a>
 
