@@ -329,10 +329,10 @@
 
                                 <!-- Message & WhatsApp button after Qty -->
                                 <div style="margin-top: 10px; background-color: #e6f7ff; font-family: 'Hind Siliguri', sans-serif; border-left: 5px solid #00b7c9; padding: 10px; border-radius: 5px;">
-                                    <p style="margin: 0; font-weight: bold; color: #333;">
+                                    <p style="margin: 0; font-weight: bold; color: #333;font-size: 1.7rem;">
                                         🔰 কোন প্রকার অগ্রিম পেমেন্ট ছাড়া অর্ডার কনফার্ম করুন
                                     </p>
-                                    <p style="margin: 0; font-weight: bold; color: #333;">
+                                    <p style="margin: 0; font-weight: bold; color: #333;font-size: 1.7rem;">
                                         🔰 কোয়ালিটি যাচাই করে পণ্য গ্রহণ করতে পারবেন
                                     </p>
                                 </div>
