@@ -113,7 +113,7 @@
                                 </div>
                                 <div class="form-group position-relative mb-3">
                                     <i class="fa fa-map-marker-alt"></i>
-                                    <input type="text" class="form-control" name="address" value="{{$order->address ?? ''}}" placeholder="আপনার ঠিকানা লিখুন (থানা+জেলা)*" required>
+                                    <input type="text" class="form-control" name="address" value="{{$order->address ?? ''}}" placeholder="আপনার ঠিকানা লিখুন (মহল্লা+থানা+জেলা)*" required>
                                 </div>
                                 <div class="form-group position-relative mb-3">
                                     <i class="fa fa-comments"></i>
