@@ -340,7 +340,7 @@
                                 </div>
 
                                 <!-- WhatsApp Contact Button -->
-                                <div class="mt-2" style="margin-top: 10px;">
+                                <div class="mt-2 mb-3" style="margin-top: 10px;">
                                     <a href="https://wa.me/{{$generalSettingView->pinterest_url}}?text={{ urlencode('আমি এই পণ্যটি কিনতে আগ্রহী: ' . route('product.show', ['id' => $product->id, 'slug' => $product->slug])) }}"
                                        target="_blank"
                                        class="btn-product"
