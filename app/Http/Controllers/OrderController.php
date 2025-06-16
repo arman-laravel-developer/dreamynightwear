@@ -538,7 +538,7 @@ class OrderController extends Controller
 
         try {
             $response = Http::withHeaders([
-                'Authorization' => 'Bearer VkyhaRscczdppDNJTIU8PaiIv1tN5Af1oyFGY6wKAjxVPgHm8OpNJmWv1r3U',
+                'Authorization' => 'Bearer ' . env('BDCOURIER_API_KEY'),
                 'Accept' => 'application/json',
             ])->post('https://bdcourier.com/api/courier-check', [
                 'phone' => $order->mobile,
