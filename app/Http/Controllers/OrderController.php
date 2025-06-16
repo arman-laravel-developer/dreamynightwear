@@ -559,10 +559,10 @@ class OrderController extends Controller
                     if ($courier === 'summary') continue;
 
                     $result['couriers'][$courier] = [
-                        'order' => $info['total_parcel'],
-                        'delivered' => $info['success_parcel'],
-                        'cancelled' => $info['cancelled_parcel'],
-                        'success_rate' => $info['success_ratio'],
+                        'order' => $info['total_parcel'] ?? 0,
+'delivered' => $info['success_parcel'] ?? 0,
+'cancelled' => $info['cancelled_parcel'] ?? 0,
+'success_rate' => $info['success_ratio'] ?? '0%',
                     ];
                 }
 
