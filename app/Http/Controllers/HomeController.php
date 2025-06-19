@@ -31,7 +31,7 @@ class HomeController extends Controller
             ->get();
 
         $sliders = Slider::where('status', 1)->orderBy('id', 'desc')->get();
-        $featuredProducts = Product::where('status', 1)->where('is_featured', 1)->latest()->take(6)->get();
+        $featuredProducts = Product::where('status', 1)->where('is_featured', 1)->orderBy('id', 'asc')->take(4)->get();
         $newArrivals = Product::where('status', 1)->latest()->paginate(10);
         $homeCategories = Category::where('status', 1)->where('parent_id', 0)->where('display_status', 1)->latest()->take(2)->get();
 
