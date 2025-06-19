@@ -296,7 +296,7 @@
 
                         // Fetch products from these categories
                         $categoryWiseProducts = \App\Models\Product::where('status',1)->whereIn('category_id', $categoryIds)
-                            ->take(10)->latest()->get();
+                            ->take(4)->orderBy('id', 'asc')->get();
                     @endphp
 
                     @foreach($categoryWiseProducts as $categoryWiseProduct)
