@@ -71,9 +71,9 @@
                                     </figure><!-- End .product-media -->
 
                                     <div class="product-body">
-                                        <div class="product-cat">
+                                        {{-- <div class="product-cat">
                                             <a href="{{route('category.product', ['id' => $category_product->category_id])}}">{{$category_product->category->category_name}}</a>
-                                        </div><!-- End .product-cat -->
+                                        </div><!-- End .product-cat --> --}}
                                         <h3 class="product-title">
                                             <a href="{{route('product.show', ['id' => $category_product->id, 'slug' => $category_product->slug])}}">{{\Illuminate\Support\Str::limit($category_product->name, 40)}}</a></h3><!-- End .product-title -->
                                         <div class="product-price">
