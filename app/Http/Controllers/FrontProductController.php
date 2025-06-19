@@ -13,8 +13,8 @@ class FrontProductController extends Controller
     public function show($id)
     {
         $product = Product::find($id);
-        $relatedProducts = Product::where('status', 1)->where('category_id', $product->category_id)->take(24)->latest()->get();
-        $featuredProducts = Product::where('status', 1)->where('you_may_also', 1)->latest()->get();
+        $relatedProducts = Product::where('status', 1)->where('category_id', $product->category_id)->take(24)->orderBy('id', 'asc')->get();
+        $featuredProducts = Product::where('status', 1)->where('you_may_also', 1)->orderBy('id', 'asc')->get();
         return view('front.pages.show', compact('product', 'relatedProducts', 'featuredProducts'));
     }
 
