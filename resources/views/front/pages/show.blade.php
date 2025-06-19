@@ -24,7 +24,7 @@
     <meta property="og:description" content="{{strip_tags($product->description)}}">
     <meta property="og:url" content="{{request()->url()}}">
     <meta property="og:image" content="{{asset($product->thumbnail_img)}}">
-    <meta property="product:brand" content="{{$product->brand->name}}">
+    <meta property="product:brand" content="{{$product->brand->name ?? 'Dreamynightwear' }}">
     @if($product->stock != 0)
         <meta property="product:availability" content="in stock">
     @else
