@@ -63,6 +63,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     });
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/user/profile/{id}', [DashboardController::class, 'profile'])->name('user.profile');
+        Route::post('/user/profile/update/{id}', [DashboardController::class, 'profileUpdate'])->name('user.profile-update');
     Route::get('/contact-form-queries', [DashboardController::class, 'contactFormShow'])->name('dashboard.contact-form');
     Route::get('/contact-form-detail/{id}', [DashboardController::class, 'contactFormDetail'])->name('contactForm.detail');
     Route::post('/contact-form-replay/{id}', [DashboardController::class, 'contactFormReplay'])->name('contactForm.replay');

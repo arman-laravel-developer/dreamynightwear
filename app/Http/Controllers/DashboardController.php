@@ -11,6 +11,7 @@ use Auth;
 use Mail;
 use Session;
 use function Ramsey\Collection\offer;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -174,6 +175,18 @@ class DashboardController extends Controller
         }
         flash()->success('Contact form replay', 'Contact form replay save successfull');
         return redirect()->back();
+    }
+
+    public function profile($id)
+    {
+        $user = User::find($id);
+        return view('user.profile', compact('user'));
+    }
+
+    public function profileUpdate(Request $request,$id)
+    {
+        User::updateUser($request, $id);
+        return redirect()->back()->with('success', 'User profile update successfull');
     }
 
 
