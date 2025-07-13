@@ -157,38 +157,50 @@
         </div>
     </div>
 
-    <script type = "text/javascript">
-        dataLayer.push({ ecommerce: null }); // Clear the previous ecommerce object.
-        dataLayer.push({
-            event : "purchase",
-            ecommerce: {
-                currency: "BDT",
-                transaction_id: "{{$order->order_code}}",
-                affiliation : "",
-                value : "{{$order->grand_total}}",
-                tax : "",
-                shipping : "{{$order->shipping_cost}}",
-                coupon : "",
-{{--                city: "{{$order->district->name}}",--}}
-                items : [@foreach ($order->orderDetails as $orderDetail){
-                    item_name : "{{$orderDetail->product->name}}",
-                    item_id : "{{$orderDetail->product_id}}",
-                    price : "{{$orderDetail->price}}",
-                    item_brand : "{{$orderDetail->product->brand->name}}",
-                    item_category: "{{$orderDetail->product->category->category_name ?? ""}}",
-                    item_variant : "{{ $orderDetail->size_id ? $orderDetail->size->name : '' }}{{ $orderDetail->size_id && $orderDetail->color_id ? ' / ' : '' }}{{ $orderDetail->color_id ? $orderDetail->color->name : '' }}",
-                    quantity : {{$orderDetail->qty}}
-                },@endforeach]
-            },
-            customer: {
-                shipping: {
-                    name: "{{$order->name}}",
-                    email: "{{$order->email}}",
-                    mobile: "{{$order->mobile}}",
-                    address: "{{$order->address}}",
-                    alt_phone: "{{$order->alt_mobile}}",
+    @if(Session::has('order_id') && Session::get('order_id') == $order->id)
+    <script>
+        // Prevent multiple firing using localStorage (persists until cleared manually or via logic)
+        if (!localStorage.getItem('purchase_fired_{{ $order->id }}')) {
+            dataLayer.push({ ecommerce: null });
+            dataLayer.push({
+                event : "purchase",
+                ecommerce: {
+                    currency: "BDT",
+                    transaction_id: "{{ $order->order_code }}",
+                    affiliation : "",
+                    value : "{{ $order->grand_total }}",
+                    tax : "",
+                    shipping : "{{ $order->shipping_cost }}",
+                    coupon : "",
+                    items : [
+                        @foreach ($order->orderDetails as $orderDetail)
+                        {
+                            item_name : "{{ $orderDetail->product->name }}",
+                            item_id : "{{ $orderDetail->product_id }}",
+                            price : "{{ $orderDetail->price }}",
+                            item_brand : "{{ $orderDetail->product->brand->name }}",
+                            item_category: "{{ $orderDetail->product->category->category_name ?? '' }}",
+                            item_variant : "{{ $orderDetail->size_id ? $orderDetail->size->name : '' }}{{ $orderDetail->size_id && $orderDetail->color_id ? ' / ' : '' }}{{ $orderDetail->color_id ? $orderDetail->color->name : '' }}",
+                            quantity : {{ $orderDetail->qty }}
+                        },
+                        @endforeach
+                    ]
+                },
+                customer: {
+                    shipping: {
+                        name: "{{ $order->name }}",
+                        email: "{{ $order->email }}",
+                        mobile: "{{ $order->mobile }}",
+                        address: "{{ $order->address }}",
+                        alt_phone: "{{ $order->alt_mobile }}"
+                    }
                 }
-            }
-        });
+            });
+
+            // Mark as fired
+            localStorage.setItem('purchase_fired_{{ $order->id }}', 'true');
+        }
     </script>
+@endif
+
 @endsection
