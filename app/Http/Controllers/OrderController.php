@@ -463,10 +463,21 @@ class OrderController extends Controller
     }
 
     public function orderConfirmation()
-    {
-        $order = Order::find(Session::get('order_id'));
-        return view('front.pages.order-confirmation', compact('order'));
+{
+    $orderId = Session::get('order_id');
+
+    if (!$orderId) {
+        return redirect()->route('home')->with('error', 'No order found.');
     }
+
+    $order = Order::find($orderId);
+
+    // Forget the session after retrieving
+    Session::forget('order_id');
+
+    return view('front.pages.order-confirmation', compact('order'));
+}
+
 
     function sendOrderInvoice($order)
     {
