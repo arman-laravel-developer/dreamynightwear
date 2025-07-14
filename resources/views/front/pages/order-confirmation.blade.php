@@ -157,11 +157,8 @@
         </div>
     </div>
 
-    @if(Session::has('order_id') && Session::get('order_id') == $order->id)
     <script>
-        // Prevent multiple firing using localStorage (persists until cleared manually or via logic)
-        if (!localStorage.getItem('purchase_fired_{{ $order->id }}')) {
-            dataLayer.push({ ecommerce: null });
+       dataLayer.push({ ecommerce: null });
             dataLayer.push({
                 event : "purchase",
                 ecommerce: {
@@ -196,11 +193,6 @@
                     }
                 }
             });
-
-            // Mark as fired
-            localStorage.setItem('purchase_fired_{{ $order->id }}', 'true');
-        }
     </script>
-@endif
 
 @endsection
